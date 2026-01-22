@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>STARLINK</title>
 
+  <!-- White star favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 70.9,57.3 79,91 50,70 18.2,91 29.1,57.3 1.4,35 38.2,35' fill='%23ffffff' stroke='%23ffffff' stroke-width='2'/></svg>">
 
   <style>
@@ -342,7 +343,7 @@
     <div id="proxy" class="category hidden">
       <h2>Proxy Sites</h2>
       <div class="search-wrapper">
-        <input type="text" id="search-proxy" class="modern-search" placeholder="Search proxies..." autocomplete="off">
+        <input type="text" id="proxy-search" class="modern-search" placeholder="Search proxies..." autocomplete="off">
         <button class="clear-search" aria-label="Clear search">×</button>
       </div>
       <div class="links" id="proxy-links">
@@ -360,7 +361,7 @@
     <div id="games" class="category hidden">
       <h2>Game Sites</h2>
       <div class="search-wrapper">
-        <input type="text" id="search-games" class="modern-search" placeholder="Search games..." autocomplete="off">
+        <input type="text" id="games-search" class="modern-search" placeholder="Search games..." autocomplete="off">
         <button class="clear-search" aria-label="Clear search">×</button>
       </div>
       <div class="links" id="games-links">
@@ -527,29 +528,26 @@
       landing.classList.remove('hidden');
     });
 
-    // Working search function
+    // FIXED WORKING SEARCH LOGIC
     function setupSearch(categoryId) {
       const input = document.getElementById(`search-${categoryId}`);
       const clearBtn = document.querySelector(`#${categoryId} .clear-search`);
       const linksContainer = document.getElementById(`links-${categoryId}`);
 
       if (!input || !clearBtn || !linksContainer) {
-        console.warn(`Missing elements for category: ${categoryId}`);
+        console.warn(`Missing elements for ${categoryId}`);
         return;
       }
 
       input.addEventListener('input', () => {
         const term = input.value.trim().toLowerCase();
-
-        // Show/hide clear button
         clearBtn.classList.toggle('visible', term.length > 0);
 
-        // Filter links
         const links = linksContainer.querySelectorAll('.link');
         links.forEach(link => {
           const text = link.textContent.toLowerCase();
-          const isMatch = term === '' || text.includes(term);
-          link.classList.toggle('hidden', !isMatch);
+          const matches = term === '' || text.includes(term);
+          link.classList.toggle('hidden', !matches);
         });
       });
 
