@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>STARLINK</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 70.9,57.3 79,91 50,70 18.2,91 29.1,57.3 1.4,35 38.2,35' fill='%23ffffff' stroke='%23ffffff' stroke-width='2'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 68.9,57.3 79,91 50,70 21.1,91 31.1,57.3 2.4,35 39.2,35' fill='%23ffffff'/></svg>">
   <style>
     :root {
       --bg: #000000;
@@ -47,6 +47,39 @@
       animation-delay:calc(var(--delay)*0.06s);
     }
     @keyframes appear { to { opacity: var(--base-opacity, 0.8); } }
+    /* Shooting star styles */
+    .shooting-star {
+      position: absolute;
+      pointer-events: none;
+      z-index: 2; /* above regular stars but below UI screens */
+      will-change: transform, opacity;
+      transform-origin: 0 50%;
+      opacity: 0;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
+      /* thin bright head + long fading trail via gradient */
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 6%, rgba(255,255,255,0.35) 28%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0) 100%);
+      height: 2px; /* will scale */
+      border-radius: 2px;
+      transform: translate3d(0,0,0) rotate(0deg) scaleY(1);
+      box-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 24px rgba(0,212,255,0.08);
+    }
+    @keyframes shoot {
+      0% {
+        opacity: 0;
+        transform: translate3d(0,0,0) rotate(var(--angle)) scaleY(1);
+      }
+      6% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--tx), var(--ty), 0) rotate(var(--angle)) scaleY(1.05);
+      }
+    }
+
     .screen {
       position:relative;
       z-index:10;
@@ -236,6 +269,18 @@
       margin:2.5rem 0 1.5rem;
       flex-wrap:wrap;
     }
+    /* credits screen specifics */
+    .credits {
+      max-width:900px;
+      text-align:left;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:2rem;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    }
+    .credits h3 { margin-bottom:0.4rem; font-size:1.3rem; }
+    .credits p, .credits li { color:var(--dim); line-height:1.6; }
     @media (max-width:768px) {
       h1 { font-size:4.8rem; }
       .big-star { width:220px; height:220px; }
@@ -297,6 +342,7 @@
       <button class="menu-btn" data-category="music">Music Sites</button>
       <button class="menu-btn" data-category="movies">Movie Sites</button>
       <button class="menu-btn" data-category="ai">AI Sites</button>
+      <button class="menu-btn" data-action="credits">Credits</button>
     </div>
     <div class="category-controls">
       <button id="back-to-landing" class="btn back-to-landing-btn">Back to Landing</button>
@@ -388,8 +434,35 @@
     </div>
   </div>
 
+  <!-- Credits screen -->
+  <div class="screen hidden" id="credits">
+    <h2>Credits</h2>
+    <div class="credits" role="document" aria-labelledby="credits">
+      <h3>Project</h3>
+      <p>STARLINK — a small curated gateway by Gunnar Booth.</p>
+
+      <h3>Design & Development</h3>
+      <ul>
+        <li>Gunnar Booth — UI, animations, and site structure.</li>
+      </ul>
+
+      <h3>Special Thanks & Resources</h3>
+      <ul>
+        <li>Inspiration from various retro-futuristic UI designs and starfield experiments.</li>
+        <li>Third-party links listed in categories are external services and are not maintained by this project.</li>
+      </ul>
+
+      <h3>License</h3>
+      <p>Feel free to reuse and adapt the UI/animations. This project is provided as-is.</p>
+
+      <div style="margin-top:1.2rem; text-align:center;">
+        <button class="back-btn">Back to Menu</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Starfield
+    // Starfield (static twinkling stars)
     const container = document.getElementById('stars');
     const stars = [];
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -445,6 +518,113 @@
     }
     animate();
 
+    // Shooting stars (smooth, frequent, aesthetic)
+    (function setupShootingStars() {
+      const viewportW = () => window.innerWidth;
+      const viewportH = () => window.innerHeight;
+
+      // spawn a single shooting star with configurable randomness
+      function spawnShootingStar() {
+        const el = document.createElement('div');
+        el.className = 'shooting-star';
+
+        // length of the trail in px
+        const minLen = Math.round(Math.max(viewportW(), viewportH()) * 0.12);
+        const maxLen = Math.round(Math.max(viewportW(), viewportH()) * 0.32);
+        const len = Math.floor(minLen + Math.random() * (maxLen - minLen));
+
+        // choose a start edge (top or left) biased toward top-left so they travel down-right
+        const startFrom = Math.random() < 0.6 ? 'top' : 'left';
+
+        let startX, startY, tx, ty, angleDeg;
+        if (startFrom === 'top') {
+          startX = Math.random() * viewportW() * 0.85; // not too close to right edge
+          startY = -20 - Math.random() * 60;
+          // travel diagonally down-right-ish
+          const travelX = len + 80 + Math.random() * (viewportW() * 0.25);
+          const travelY = len * (0.6 + Math.random() * 0.7);
+          tx = travelX + 'px';
+          ty = travelY + 'px';
+          angleDeg = Math.atan2(travelY, travelX) * 180 / Math.PI;
+        } else {
+          startX = -20 - Math.random() * 60;
+          startY = Math.random() * viewportH() * 0.6; // not too low
+          const travelX = len * (0.9 + Math.random() * 1.2);
+          const travelY = len * (0.4 + Math.random() * 0.9);
+          tx = travelX + 'px';
+          ty = travelY + 'px';
+          angleDeg = Math.atan2(travelY, travelX) * 180 / Math.PI;
+        }
+
+        // set position and size
+        el.style.left = startX + 'px';
+        el.style.top = startY + 'px';
+        el.style.width = Math.max(120, len) + 'px';
+        // slightly vary thickness
+        const thickness = (0.9 + Math.random() * 1.8).toFixed(2) + 'px';
+        el.style.height = thickness;
+
+        // CSS vars for keyframes
+        el.style.setProperty('--tx', tx);
+        el.style.setProperty('--ty', ty);
+        el.style.setProperty('--angle', angleDeg + 'deg');
+
+        // duration and delay
+        const duration = (0.9 + Math.random() * 1.2).toFixed(2) + 's'; // quick, crisp streaks
+        const delay = (Math.random() * 0.1).toFixed(2) + 's';
+        el.style.animation = `shoot ${duration} cubic-bezier(.2,.8,.2,1) ${delay} forwards`;
+
+        // slight random scale for variety
+        el.style.transform = `translate3d(0,0,0) rotate(${angleDeg}deg) scaleY(${0.8 + Math.random() * 0.7})`;
+
+        container.appendChild(el);
+
+        // cleanup after animation
+        el.addEventListener('animationend', () => {
+          if (el && el.parentNode) el.parentNode.removeChild(el);
+        });
+
+        // head dot for brightness
+        const head = document.createElement('div');
+        head.style.position = 'absolute';
+        head.style.right = '0';
+        head.style.top = '50%';
+        head.style.transform = 'translateY(-50%)';
+        head.style.width = '10px';
+        head.style.height = '10px';
+        head.style.borderRadius = '50%';
+        head.style.background = 'linear-gradient(45deg, white, rgba(0,212,255,0.9))';
+        head.style.boxShadow = '0 0 10px rgba(255,255,255,0.9), 0 0 22px rgba(0,212,255,0.16)';
+        head.style.pointerEvents = 'none';
+        head.style.opacity = '0.98';
+        head.style.filter = 'blur(0.6px)';
+        el.appendChild(head);
+      }
+
+      // spawn stars frequently but with slight randomness, plus occasional double-bursts
+      function scheduleNext() {
+        // choose next interval (frequent): 600ms - 3000ms, biased to more frequent
+        const base = 800 + Math.pow(Math.random(), 0.9) * 1600; // skew towards lower
+        // spawn 1 or sometimes 2-3 in quick succession for a "trail" effect
+        setTimeout(() => {
+          // sometimes spawn a quick mini-burst
+          const burst = Math.random() < 0.16 ? (2 + Math.floor(Math.random() * 2)) : 1;
+          for (let i = 0; i < burst; i++) {
+            setTimeout(spawnShootingStar, i * (60 + Math.random() * 160));
+          }
+          scheduleNext();
+        }, base);
+      }
+
+      // Start after a short delay so initial load isn't too busy
+      setTimeout(scheduleNext, 900);
+      // Also spawn a subtle initial streak
+      setTimeout(spawnShootingStar, 1200);
+
+      // keep responsive on resize
+      window.addEventListener('resize', () => {});
+    })();
+
     // Theme switcher
     document.getElementById('theme-select').addEventListener('change', e => {
       document.body.className = 'theme-' + e.target.value;
@@ -454,24 +634,44 @@
     const landing = document.getElementById('landing');
     const menu = document.getElementById('menu');
     const categoryView = document.getElementById('category-view');
+    const creditsView = document.getElementById('credits');
 
     document.getElementById('get-started').addEventListener('click', () => {
       landing.classList.add('hidden');
       menu.classList.remove('hidden');
     });
 
+    // menu button handling (support categories and actions like credits)
     document.querySelectorAll('.menu-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const catId = btn.dataset.category;
+        const action = btn.dataset.action;
+        if (action === 'credits') {
+          // open credits screen
+          menu.classList.add('hidden');
+          creditsView.classList.remove('hidden');
+          // hide all category panels (just in case)
+          document.querySelectorAll('.category').forEach(cat => cat.classList.add('hidden'));
+          return;
+        }
+        if (!catId) return;
         menu.classList.add('hidden');
         categoryView.classList.remove('hidden');
         document.querySelectorAll('.category').forEach(cat => cat.classList.add('hidden'));
-        document.getElementById(catId).classList.remove('hidden');
+        const el = document.getElementById(catId);
+        if (el) el.classList.remove('hidden');
       });
     });
 
+    // back buttons in categories and credits
     document.querySelectorAll('.back-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        // if credits is open, return to menu
+        if (!creditsView.classList.contains('hidden')) {
+          creditsView.classList.add('hidden');
+          menu.classList.remove('hidden');
+          return;
+        }
         categoryView.classList.add('hidden');
         menu.classList.remove('hidden');
       });
