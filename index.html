@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>STARLINK</title>
 
-  <!-- White star favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 70.9,57.3 79,91 50,70 18.2,91 29.1,57.3 1.4,35 38.2,35' fill='%23ffffff' stroke='%23ffffff' stroke-width='2'/></svg>">
 
   <style>
@@ -528,22 +527,23 @@
       landing.classList.remove('hidden');
     });
 
-    // FIXED WORKING SEARCH LOGIC
+    // WORKING SEARCH LOGIC (simplified & robust)
     function setupSearch(categoryId) {
       const input = document.getElementById(`search-${categoryId}`);
       const clearBtn = document.querySelector(`#${categoryId} .clear-search`);
-      const linksContainer = document.getElementById(`links-${categoryId}`);
+      const container = document.getElementById(`links-${categoryId}`);
 
-      if (!input || !clearBtn || !linksContainer) {
-        console.warn(`Missing elements for ${categoryId}`);
+      if (!input || !container) {
+        console.warn(`Search failed for ${categoryId} — missing input or container`);
         return;
       }
 
       input.addEventListener('input', () => {
         const term = input.value.trim().toLowerCase();
-        clearBtn.classList.toggle('visible', term.length > 0);
 
-        const links = linksContainer.querySelectorAll('.link');
+        if (clearBtn) clearBtn.classList.toggle('visible', term.length > 0);
+
+        const links = container.querySelectorAll('.link');
         links.forEach(link => {
           const text = link.textContent.toLowerCase();
           const matches = term === '' || text.includes(term);
@@ -551,13 +551,15 @@
         });
       });
 
-      clearBtn.addEventListener('click', () => {
-        input.value = '';
-        clearBtn.classList.remove('visible');
-        const links = linksContainer.querySelectorAll('.link');
-        links.forEach(link => link.classList.remove('hidden'));
-        input.focus();
-      });
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          input.value = '';
+          clearBtn.classList.remove('visible');
+          const links = container.querySelectorAll('.link');
+          links.forEach(link => link.classList.remove('hidden'));
+          input.focus();
+        });
+      }
     }
 
     // Initialize search for all categories
