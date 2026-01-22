@@ -6,7 +6,7 @@
   <title>STARLINK</title>
 
   <!-- White 5-pointed star favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 70.9,57.3 81.8,91 50,70 18.2,91 29.1,57.3 1.4,35 38.2,35' fill='%23ffffff' stroke='%23ffffff' stroke-width='2'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 70.9,57.3 79,91 50,70 18.2,91 29.1,57.3 1.4,35 38.2,35' fill='%23ffffff' stroke='%23ffffff' stroke-width='2'/></svg>">
 
   <style>
     :root {
@@ -22,7 +22,8 @@
       --link-bg: rgba(255,255,255,0.06);
     }
 
-    /* Your 24 themes (unchanged) */
+    /* 24 themes (all preserved) */
+    body.theme-cosmic {}
     body.theme-neon {
       --bg: #0a0015; --text: #e0f7ff; --dim: #a0d8ff; --star: #ff00aa;
       --glow1: rgba(255,0,170,0.9); --glow2: rgba(0,255,255,0.7); --glow3: rgba(255,0,170,0.3);
@@ -110,4 +111,449 @@
     }
     body.theme-violet {
       --bg: #0d001a; --text: #f0e6ff; --dim: #cc99ff; --star: #aa66ff;
-      --glow1: rgba(170,102,255,0.9); --glow2: rgba(136,68,255,0.65); --glow3: rgba(102,34,204,0
+      --glow1: rgba(170,102,255,0.9); --glow2: rgba(136,68,255,0.65); --glow3: rgba(102,34,204,0.3);
+      --menu-bg: rgba(170,102,255,0.14); --link-border: rgba(170,102,255,0.38); --link-bg: rgba(170,102,255,0.09);
+    }
+    body.theme-desert {
+      --bg: #1a0f00; --text: #fff5e6; --dim: #ffcc99; --star: #ff9966;
+      --glow1: rgba(255,153,102,0.9); --glow2: rgba(255,102,51,0.65); --glow3: rgba(204,68,0,0.3);
+      --menu-bg: rgba(255,153,102,0.14); --link-border: rgba(255,153,102,0.38); --link-bg: rgba(255,153,102,0.09);
+    }
+    body.theme-forest {
+      --bg: #001a0f; --text: #e6fff5; --dim: #99ffcc; --star: #33cc99;
+      --glow1: rgba(51,204,153,0.9); --glow2: rgba(0,153,102,0.65); --glow3: rgba(0,102,68,0.3);
+      --menu-bg: rgba(51,204,153,0.14); --link-border: rgba(51,204,153,0.38); --link-bg: rgba(51,204,153,0.09);
+    }
+    body.theme-cherry {
+      --bg: #1a000a; --text: #ffe6f2; --dim: #ff99cc; --star: #ff3399;
+      --glow1: rgba(255,51,153,0.9); --glow2: rgba(204,0,102,0.65); --glow3: rgba(153,0,76,0.3);
+      --menu-bg: rgba(255,51,153,0.14); --link-border: rgba(255,51,153,0.38); --link-bg: rgba(255,51,153,0.09);
+    }
+    body.theme-sunset {
+      --bg: #1a0d1a; --text: #fff0f5; --dim: #ffccff; --star: #ff99cc;
+      --glow1: rgba(255,153,204,0.9); --glow2: rgba(255,102,153,0.65); --glow3: rgba(204,51,102,0.3);
+      --menu-bg: rgba(255,153,204,0.14); --link-border: rgba(255,153,204,0.38); --link-bg: rgba(255,153,204,0.09);
+    }
+    body.theme-lime {
+      --bg: #0f1a00; --text: #f5ffe6; --dim: #ccff99; --star: #ccff33;
+      --glow1: rgba(204,255,51,0.9); --glow2: rgba(153,204,0,0.65); --glow3: rgba(102,153,0,0.3);
+      --menu-bg: rgba(204,255,51,0.14); --link-border: rgba(204,255,51,0.38); --link-bg: rgba(204,255,51,0.09);
+    }
+
+    /* Core styles */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+      transition: background 0.6s ease;
+    }
+    #stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .star {
+      position: absolute;
+      background: var(--star);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--glow1), 0 0 24px var(--glow2), 0 0 50px var(--glow3);
+      will-change: transform;
+      opacity: 0;
+      animation: appear 1.8s forwards ease-out;
+      animation-delay: calc(var(--delay) * 0.06s);
+    }
+    @keyframes appear { to { opacity: var(--base-opacity, 0.8); } }
+    .screen {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1.8s 0.3s forwards ease-out;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+    .hidden { display: none !important; }
+
+    /* Pulsing center star */
+    .big-star {
+      width: 260px;
+      height: 260px;
+      margin-bottom: 2.5rem;
+      background: var(--star);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      box-shadow:
+        0 0 90px var(--glow1),
+        0 0 180px var(--glow2),
+        0 0 320px var(--glow3);
+      animation:
+        bigGlow 14s infinite ease-in-out,
+        pulseLight 4.2s infinite ease-in-out;
+      transform: translateZ(0);
+      position: relative;
+    }
+
+    @keyframes bigGlow {
+      0%, 100% { box-shadow: 0 0 90px var(--glow1), 0 0 180px var(--glow2), 0 0 320px var(--glow3); }
+      50%      { box-shadow: 0 0 150px var(--glow1), 0 0 300px var(--glow2), 0 0 520px var(--glow3); }
+    }
+
+    @keyframes pulseLight {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 0 90px var(--glow1),
+          0 0 180px var(--glow2),
+          0 0 320px var(--glow3);
+      }
+      50% {
+        transform: scale(1.07);
+        box-shadow:
+          0 0 140px var(--glow1),
+          0 0 280px var(--glow2),
+          0 0 480px var(--glow3);
+      }
+    }
+
+    h1 { font-size: 6rem; font-weight: 800; letter-spacing: -0.07em; margin-bottom: 0.6rem; text-shadow: 0 0 80px rgba(255,255,255,0.45); }
+    h2 { font-size: 3rem; margin: 3rem 0 2.5rem; }
+    .tagline { font-size: 1.9rem; color: var(--dim); margin-bottom: 4rem; font-weight: 300; }
+    .btn, .back-to-landing-btn {
+      padding: 1.5rem 5rem;
+      font-size: 1.7rem;
+      font-weight: 600;
+      background: white;
+      color: black;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.45s ease;
+      box-shadow: 0 0 80px rgba(255,255,255,0.5);
+      border: none;
+    }
+    .btn:hover, .back-to-landing-btn:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 0 160px rgba(255,255,255,0.85);
+      color: black;
+      background: white;
+    }
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.6rem;
+      max-width: 1200px;
+      width: 100%;
+      margin: 1rem 0 4rem;
+    }
+    .menu-btn {
+      padding: 1.3rem 2.2rem;
+      font-size: 1.45rem;
+      background: var(--menu-bg);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .menu-btn:hover {
+      background: rgba(255,255,255,0.14);
+      box-shadow: 0 0 35px rgba(255,255,255,0.25);
+      transform: translateY(-6px);
+    }
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .link {
+      padding: 1.3rem;
+      background: var(--link-bg);
+      border: 1px solid var(--link-border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      font-size: 1.15rem;
+    }
+    .link:hover {
+      background: rgba(255,255,255,0.14);
+      box-shadow: 0 0 30px rgba(255,255,255,0.22);
+      transform: translateY(-4px);
+    }
+    .back-btn {
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      background: transparent;
+      border: 1px solid var(--dim);
+      color: var(--dim);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 2.5rem auto;
+      display: block;
+      width: fit-content;
+    }
+    .back-btn:hover {
+      color: white;
+      border-color: white;
+      box-shadow: 0 0 40px rgba(255,255,255,0.3);
+    }
+    .theme-selector {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      z-index: 20;
+    }
+    .theme-selector select {
+      background: transparent;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .theme-selector option {
+      background: #111;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 4.8rem; }
+      .big-star { width: 220px; height: 220px; }
+      .tagline { font-size: 1.7rem; }
+      .btn, .back-to-landing-btn { padding: 1.3rem 4rem; font-size: 1.5rem; }
+      .menu { grid-template-columns: 1fr; }
+      .links { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 3.8rem; }
+      .big-star { width: 180px; height: 180px; }
+      .tagline { font-size: 1.45rem; }
+      .btn, .back-to-landing-btn { padding: 1.1rem 3rem; font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body class="theme-cosmic">
+
+  <div id="stars"></div>
+
+  <!-- Landing -->
+  <div class="screen" id="landing">
+    <div class="big-star"></div>
+    <h1>STARLINK</h1>
+    <p class="tagline">By: Gunnar Booth</p>
+    <button id="get-started" class="btn">Get Started</button>
+  </div>
+
+  <!-- Menu -->
+  <div class="screen hidden" id="menu">
+    <div class="theme-selector">
+      <select id="theme-select">
+        <option value="cosmic">Cosmic (default)</option>
+        <option value="neon">Neon Cyber</option>
+        <option value="purple">Midnight Purple</option>
+        <option value="void">Void Black</option>
+        <option value="emerald">Emerald Glow</option>
+        <option value="crimson">Crimson Pulse</option>
+        <option value="solar">Solar Flare</option>
+        <option value="aurora">Aurora Borealis</option>
+        <option value="galactic">Galactic Blue</option>
+        <option value="vapor">Retro Vaporwave</option>
+        <option value="silver">Monochrome Silver</option>
+        <option value="candy">Candy Neon</option>
+        <option value="toxic">Toxic Green</option>
+        <option value="ocean">Deep Ocean</option>
+        <option value="golden">Golden Hour</option>
+        <option value="lavender">Lavender Dream</option>
+        <option value="blood">Blood Moon</option>
+        <option value="ice">Ice Cold</option>
+        <option value="violet">Electric Violet</option>
+        <option value="desert">Desert Sunset</option>
+        <option value="forest">Forest Night</option>
+        <option value="cherry">Cherry Blossom</option>
+        <option value="sunset">Sunset Glow</option>
+        <option value="lime">Electric Lime</option>
+      </select>
+    </div>
+    <h2>Choose a Category</h2>
+    <div class="menu">
+      <button class="menu-btn" data-category="proxy">Proxy Sites</button>
+      <button class="menu-btn" data-category="games">Game Sites</button>
+      <button class="menu-btn" data-category="music">Music Sites</button>
+      <button class="menu-btn" data-category="movies">Movie Sites</button>
+      <button class="menu-btn" data-category="ai">AI Sites</button>
+    </div>
+    <button id="back-to-landing" class="btn back-to-landing-btn">Back to Landing</button>
+  </div>
+
+  <!-- Categories -->
+  <div class="screen hidden category-container" id="category-view">
+    <div id="proxy" class="category hidden">
+      <h2>Proxy Sites</h2>
+      <div class="links">
+        <a href="https://ali-in-a-new-dress.global.ssl.fastly.net/" target="_blank" class="link">Boredom V2</a>
+        <a href="https://brightenglish.flightbooker.co.za/" target="_blank" class="link">Shadow</a>
+        <a href="https://learn-2code.surge.sh/" target="_blank" class="link">Nebulo</a>
+        <a href="https://travelingagent.thepresenttraveller.com/" target="_blank" class="link">Glint</a>
+      </div>
+      <button class="back-btn">Back to Menu</button>
+    </div>
+
+    <div id="games" class="category hidden">
+      <h2>Game Sites</h2>
+      <div class="links">
+        <a href="https://imadejptr.github.io/" target="_blank" class="link">imadejptr</a>
+        <a href="https://theorytest.help/" target="_blank" class="link">The Marz Library</a>
+        <a href="https://algebra.learnnexus.one/" target="_blank" class="link">Reds Exploit Corner</a>
+        <a href="https://www.msn.com/en-xl/play" target="_blank" class="link">MSN</a>
+        <a href="https://neal.fun/" target="_blank" class="link">Neal.fun</a>
+        <a href="https://www.twoplayergames.org/" target="_blank" class="link">TwoPlayerGames</a>
+        <a href="https://bobzgames.github.io/GBA/" target="_blank" class="link">GBA Emulator</a>
+      </div>
+      <button class="back-btn">Back to Menu</button>
+    </div>
+
+    <div id="music" class="category hidden">
+      <h2>Music Sites</h2>
+      <div class="links">
+        <a href="https://playlistsound.com/" target="_blank" class="link">PlaylistSound</a>
+        <a href="https://music.amazon.com/" target="_blank" class="link">Amazon Music</a>
+      </div>
+      <button class="back-btn">Back to Menu</button>
+    </div>
+
+    <div id="movies" class="category hidden">
+      <h2>Movie Sites</h2>
+      <div class="links">
+        <a href="https://donkey.to/" target="_blank" class="link">Donkey</a>
+      </div>
+      <button class="back-btn">Back to Menu</button>
+    </div>
+
+    <div id="ai" class="category hidden">
+      <h2>AI Sites</h2>
+      <div class="links">
+        <a href="https://grok.x.ai/" target="_blank" class="link">Grok</a>
+        <a href="https://copilot.microsoft.com/" target="_blank" class="link">Microsoft Copilot</a>
+        <a href="https://gemini.google.com/app" target="_blank" class="link">Google Gemini</a>
+        <a href="https://www.perplexity.ai/" target="_blank" class="link">Perplexity AI</a>
+      </div>
+      <button class="back-btn">Back to Menu</button>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('stars');
+    const stars = [];
+    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    const count = 220;
+
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = 1.0 + Math.random() * 3.5;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      const baseOpacity = 0.45 + Math.random() * 0.4;
+      star.style.setProperty('--base-opacity', baseOpacity);
+      star.style.setProperty('--delay', i);
+      star.baseX = Math.random();
+      star.baseY = Math.random();
+      star.offsetX = 0;
+      star.offsetY = 0;
+      star.vx = (Math.random() - 0.5) * 0.12;
+      star.vy = (Math.random() - 0.5) * 0.12;
+      star.damping = 0.935 + Math.random() * 0.03;
+      container.appendChild(star);
+      stars.push(star);
+    }
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    function animate() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      stars.forEach(star => {
+        let targetX = star.baseX * w;
+        let targetY = star.baseY * h;
+        const dx = mouse.x - targetX;
+        const dy = mouse.y - targetY;
+        const dist = Math.hypot(dx, dy) || 1;
+        const force = Math.min(80 / dist, 1.2);
+        star.vx += (dx / dist) * force * 0.085;
+        star.vy += (dy / dist) * force * 0.085;
+        star.vx += (Math.random() - 0.5) * 0.006;
+        star.vy += (Math.random() - 0.5) * 0.006;
+        star.vx *= star.damping;
+        star.vy *= star.damping;
+        star.offsetX += star.vx;
+        star.offsetY += star.vy;
+        if (Math.abs(star.offsetX) > w * 1.2) star.offsetX *= 0.35;
+        if (Math.abs(star.offsetY) > h * 1.2) star.offsetY *= 0.35;
+        const x = targetX + star.offsetX;
+        const y = targetY + star.offsetY;
+        star.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {});
+
+    // Theme switcher
+    document.getElementById('theme-select').addEventListener('change', e => {
+      document.body.className = 'theme-' + e.target.value;
+    });
+
+    // Navigation
+    const landing = document.getElementById('landing');
+    const menu = document.getElementById('menu');
+    const categoryView = document.getElementById('category-view');
+
+    document.getElementById('get-started').addEventListener('click', () => {
+      landing.classList.add('hidden');
+      menu.classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.menu-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const catId = btn.dataset.category;
+        menu.classList.add('hidden');
+        categoryView.classList.remove('hidden');
+        document.querySelectorAll('.category').forEach(cat => cat.classList.add('hidden'));
+        document.getElementById(catId).classList.remove('hidden');
+      });
+    });
+
+    document.querySelectorAll('#category-view .back-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryView.classList.add('hidden');
+        menu.classList.remove('hidden');
+      });
+    });
+
+    document.getElementById('back-to-landing').addEventListener('click', () => {
+      menu.classList.add('hidden');
+      landing.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
