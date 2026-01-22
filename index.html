@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>STARLINK</title>
 
-  <!-- White 5-pointed star favicon -->
+  <!-- White star favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,0 61.8,35 98.6,35 70.9,57.3 79,91 50,70 18.2,91 29.1,57.3 1.4,35 38.2,35' fill='%23ffffff' stroke='%23ffffff' stroke-width='2'/></svg>">
 
   <style>
@@ -22,125 +22,32 @@
       --link-bg: rgba(255,255,255,0.06);
     }
 
-    /* 24 themes (all preserved) */
+    /* All 24 themes (unchanged) */
     body.theme-cosmic {}
-    body.theme-neon {
-      --bg: #0a0015; --text: #e0f7ff; --dim: #a0d8ff; --star: #ff00aa;
-      --glow1: rgba(255,0,170,0.9); --glow2: rgba(0,255,255,0.7); --glow3: rgba(255,0,170,0.3);
-      --menu-bg: rgba(0,255,255,0.12); --link-border: rgba(0,255,255,0.4); --link-bg: rgba(0,255,255,0.08);
-    }
-    body.theme-purple {
-      --bg: #0f001a; --text: #e6d9ff; --dim: #b399ff; --star: #aa66ff;
-      --glow1: rgba(170,102,255,0.9); --glow2: rgba(170,102,255,0.6); --glow3: rgba(170,102,255,0.25);
-      --menu-bg: rgba(170,102,255,0.12); --link-border: rgba(170,102,255,0.35); --link-bg: rgba(170,102,255,0.08);
-    }
-    body.theme-void {
-      --bg: #000000; --text: #dddddd; --dim: #888888; --star: #555555;
-      --glow1: rgba(100,100,100,0.5); --glow2: rgba(80,80,80,0.3); --glow3: rgba(60,60,60,0.15);
-      --menu-bg: rgba(40,40,40,0.5); --link-border: rgba(100,100,100,0.4); --link-bg: rgba(30,30,30,0.3);
-    }
-    body.theme-emerald {
-      --bg: #001510; --text: #e0fff5; --dim: #80ffcc; --star: #00ffaa;
-      --glow1: rgba(0,255,170,0.9); --glow2: rgba(0,200,140,0.6); --glow3: rgba(0,150,100,0.3);
-      --menu-bg: rgba(0,255,170,0.12); --link-border: rgba(0,255,170,0.35); --link-bg: rgba(0,255,170,0.08);
-    }
-    body.theme-crimson {
-      --bg: #150000; --text: #ffe6e6; --dim: #ff9999; --star: #ff4444;
-      --glow1: rgba(255,68,68,0.9); --glow2: rgba(200,0,0,0.6); --glow3: rgba(150,0,0,0.3);
-      --menu-bg: rgba(255,68,68,0.12); --link-border: rgba(255,68,68,0.35); --link-bg: rgba(255,68,68,0.08);
-    }
-    body.theme-solar {
-      --bg: #1a0d00; --text: #fffaf0; --dim: #ffd9a3; --star: #ffcc66;
-      --glow1: rgba(255,204,102,0.9); --glow2: rgba(255,140,0,0.65); --glow3: rgba(255,69,0,0.3);
-      --menu-bg: rgba(255,140,0,0.14); --link-border: rgba(255,140,0,0.38); --link-bg: rgba(255,140,0,0.09);
-    }
-    body.theme-aurora {
-      --bg: #000d1a; --text: #f0f8ff; --dim: #b3e6ff; --star: #66ffcc;
-      --glow1: rgba(102,255,204,0.85); --glow2: rgba(102,204,255,0.6); --glow3: rgba(153,102,255,0.35);
-      --menu-bg: rgba(102,255,204,0.12); --link-border: rgba(102,255,204,0.35); --link-bg: rgba(102,255,204,0.07);
-    }
-    body.theme-galactic {
-      --bg: #00051a; --text: #e6f0ff; --dim: #99ccff; --star: #6699ff;
-      --glow1: rgba(102,153,255,0.9); --glow2: rgba(51,102,255,0.65); --glow3: rgba(0,51,204,0.3);
-      --menu-bg: rgba(102,153,255,0.13); --link-border: rgba(102,153,255,0.36); --link-bg: rgba(102,153,255,0.08);
-    }
-    body.theme-vapor {
-      --bg: #12001f; --text: #f5e6ff; --dim: #ffccff; --star: #ff66cc;
-      --glow1: rgba(255,102,204,0.85); --glow2: rgba(102,255,255,0.6); --glow3: rgba(204,102,255,0.35);
-      --menu-bg: rgba(255,102,204,0.12); --link-border: rgba(255,102,204,0.35); --link-bg: rgba(255,102,204,0.08);
-    }
-    body.theme-silver {
-      --bg: #0a0a0a; --text: #f5f5f5; --dim: #bbbbbb; --star: #dddddd;
-      --glow1: rgba(220,220,220,0.75); --glow2: rgba(180,180,180,0.5); --glow3: rgba(140,140,140,0.25);
-      --menu-bg: rgba(180,180,180,0.15); --link-border: rgba(180,180,180,0.4); --link-bg: rgba(120,120,120,0.12);
-    }
-    body.theme-candy {
-      --bg: #110022; --text: #ffffff; --dim: #ffccff; --star: #ff33ff;
-      --glow1: rgba(255,51,255,0.95); --glow2: rgba(51,255,255,0.75); --glow3: rgba(255,153,51,0.4);
-      --menu-bg: rgba(255,51,255,0.18); --link-border: rgba(255,51,255,0.45); --link-bg: rgba(255,51,255,0.10);
-    }
-    body.theme-toxic {
-      --bg: #001a00; --text: #e6ffe6; --dim: #99ff99; --star: #33ff33;
-      --glow1: rgba(51,255,51,0.9); --glow2: rgba(0,204,0,0.65); --glow3: rgba(0,102,0,0.3);
-      --menu-bg: rgba(51,255,51,0.14); --link-border: rgba(51,255,51,0.38); --link-bg: rgba(51,255,51,0.09);
-    }
-    body.theme-ocean {
-      --bg: #00051a; --text: #e6f2ff; --dim: #80ccff; --star: #3399ff;
-      --glow1: rgba(51,153,255,0.9); --glow2: rgba(0,102,204,0.65); --glow3: rgba(0,51,153,0.3);
-      --menu-bg: rgba(51,153,255,0.13); --link-border: rgba(51,153,255,0.36); --link-bg: rgba(51,153,255,0.08);
-    }
-    body.theme-golden {
-      --bg: #1a1400; --text: #fff8e6; --dim: #ffeb99; --star: #ffdd66;
-      --glow1: rgba(255,221,102,0.9); --glow2: rgba(255,187,0,0.65); --glow3: rgba(204,136,0,0.3);
-      --menu-bg: rgba(255,221,102,0.14); --link-border: rgba(255,221,102,0.38); --link-bg: rgba(255,221,102,0.09);
-    }
-    body.theme-lavender {
-      --bg: #14001a; --text: #f5e6ff; --dim: #d9b3ff; --star: #cc99ff;
-      --glow1: rgba(204,153,255,0.9); --glow2: rgba(153,102,204,0.65); --glow3: rgba(102,51,153,0.3);
-      --menu-bg: rgba(204,153,255,0.13); --link-border: rgba(204,153,255,0.36); --link-bg: rgba(204,153,255,0.08);
-    }
-    body.theme-blood {
-      --bg: #1a0005; --text: #ffe6e6; --dim: #ff9999; --star: #cc3333;
-      --glow1: rgba(204,51,51,0.9); --glow2: rgba(153,0,0,0.65); --glow3: rgba(102,0,0,0.3);
-      --menu-bg: rgba(204,51,51,0.14); --link-border: rgba(204,51,51,0.38); --link-bg: rgba(204,51,51,0.09);
-    }
-    body.theme-ice {
-      --bg: #00111a; --text: #e6faff; --dim: #99e6ff; --star: #66ddff;
-      --glow1: rgba(102,221,255,0.9); --glow2: rgba(51,204,255,0.65); --glow3: rgba(0,153,204,0.3);
-      --menu-bg: rgba(102,221,255,0.13); --link-border: rgba(102,221,255,0.36); --link-bg: rgba(102,221,255,0.08);
-    }
-    body.theme-violet {
-      --bg: #0d001a; --text: #f0e6ff; --dim: #cc99ff; --star: #aa66ff;
-      --glow1: rgba(170,102,255,0.9); --glow2: rgba(136,68,255,0.65); --glow3: rgba(102,34,204,0.3);
-      --menu-bg: rgba(170,102,255,0.14); --link-border: rgba(170,102,255,0.38); --link-bg: rgba(170,102,255,0.09);
-    }
-    body.theme-desert {
-      --bg: #1a0f00; --text: #fff5e6; --dim: #ffcc99; --star: #ff9966;
-      --glow1: rgba(255,153,102,0.9); --glow2: rgba(255,102,51,0.65); --glow3: rgba(204,68,0,0.3);
-      --menu-bg: rgba(255,153,102,0.14); --link-border: rgba(255,153,102,0.38); --link-bg: rgba(255,153,102,0.09);
-    }
-    body.theme-forest {
-      --bg: #001a0f; --text: #e6fff5; --dim: #99ffcc; --star: #33cc99;
-      --glow1: rgba(51,204,153,0.9); --glow2: rgba(0,153,102,0.65); --glow3: rgba(0,102,68,0.3);
-      --menu-bg: rgba(51,204,153,0.14); --link-border: rgba(51,204,153,0.38); --link-bg: rgba(51,204,153,0.09);
-    }
-    body.theme-cherry {
-      --bg: #1a000a; --text: #ffe6f2; --dim: #ff99cc; --star: #ff3399;
-      --glow1: rgba(255,51,153,0.9); --glow2: rgba(204,0,102,0.65); --glow3: rgba(153,0,76,0.3);
-      --menu-bg: rgba(255,51,153,0.14); --link-border: rgba(255,51,153,0.38); --link-bg: rgba(255,51,153,0.09);
-    }
-    body.theme-sunset {
-      --bg: #1a0d1a; --text: #fff0f5; --dim: #ffccff; --star: #ff99cc;
-      --glow1: rgba(255,153,204,0.9); --glow2: rgba(255,102,153,0.65); --glow3: rgba(204,51,102,0.3);
-      --menu-bg: rgba(255,153,204,0.14); --link-border: rgba(255,153,204,0.38); --link-bg: rgba(255,153,204,0.09);
-    }
-    body.theme-lime {
-      --bg: #0f1a00; --text: #f5ffe6; --dim: #ccff99; --star: #ccff33;
-      --glow1: rgba(204,255,51,0.9); --glow2: rgba(153,204,0,0.65); --glow3: rgba(102,153,0,0.3);
-      --menu-bg: rgba(204,255,51,0.14); --link-border: rgba(204,255,51,0.38); --link-bg: rgba(204,255,51,0.09);
-    }
+    body.theme-neon { --bg: #0a0015; --text: #e0f7ff; --dim: #a0d8ff; --star: #ff00aa; --glow1: rgba(255,0,170,0.9); --glow2: rgba(0,255,255,0.7); --glow3: rgba(255,0,170,0.3); --menu-bg: rgba(0,255,255,0.12); --link-border: rgba(0,255,255,0.4); --link-bg: rgba(0,255,255,0.08); }
+    body.theme-purple { --bg: #0f001a; --text: #e6d9ff; --dim: #b399ff; --star: #aa66ff; --glow1: rgba(170,102,255,0.9); --glow2: rgba(170,102,255,0.6); --glow3: rgba(170,102,255,0.25); --menu-bg: rgba(170,102,255,0.12); --link-border: rgba(170,102,255,0.35); --link-bg: rgba(170,102,255,0.08); }
+    body.theme-void { --bg: #000000; --text: #dddddd; --dim: #888888; --star: #555555; --glow1: rgba(100,100,100,0.5); --glow2: rgba(80,80,80,0.3); --glow3: rgba(60,60,60,0.15); --menu-bg: rgba(40,40,40,0.5); --link-border: rgba(100,100,100,0.4); --link-bg: rgba(30,30,30,0.3); }
+    body.theme-emerald { --bg: #001510; --text: #e0fff5; --dim: #80ffcc; --star: #00ffaa; --glow1: rgba(0,255,170,0.9); --glow2: rgba(0,200,140,0.6); --glow3: rgba(0,150,100,0.3); --menu-bg: rgba(0,255,170,0.12); --link-border: rgba(0,255,170,0.35); --link-bg: rgba(0,255,170,0.08); }
+    body.theme-crimson { --bg: #150000; --text: #ffe6e6; --dim: #ff9999; --star: #ff4444; --glow1: rgba(255,68,68,0.9); --glow2: rgba(200,0,0,0.6); --glow3: rgba(150,0,0,0.3); --menu-bg: rgba(255,68,68,0.12); --link-border: rgba(255,68,68,0.35); --link-bg: rgba(255,68,68,0.08); }
+    body.theme-solar { --bg: #1a0d00; --text: #fffaf0; --dim: #ffd9a3; --star: #ffcc66; --glow1: rgba(255,204,102,0.9); --glow2: rgba(255,140,0,0.65); --glow3: rgba(255,69,0,0.3); --menu-bg: rgba(255,140,0,0.14); --link-border: rgba(255,140,0,0.38); --link-bg: rgba(255,140,0,0.09); }
+    body.theme-aurora { --bg: #000d1a; --text: #f0f8ff; --dim: #b3e6ff; --star: #66ffcc; --glow1: rgba(102,255,204,0.85); --glow2: rgba(102,204,255,0.6); --glow3: rgba(153,102,255,0.35); --menu-bg: rgba(102,255,204,0.12); --link-border: rgba(102,255,204,0.35); --link-bg: rgba(102,255,204,0.07); }
+    body.theme-galactic { --bg: #00051a; --text: #e6f0ff; --dim: #99ccff; --star: #6699ff; --glow1: rgba(102,153,255,0.9); --glow2: rgba(51,102,255,0.65); --glow3: rgba(0,51,204,0.3); --menu-bg: rgba(102,153,255,0.13); --link-border: rgba(102,153,255,0.36); --link-bg: rgba(102,153,255,0.08); }
+    body.theme-vapor { --bg: #12001f; --text: #f5e6ff; --dim: #ffccff; --star: #ff66cc; --glow1: rgba(255,102,204,0.85); --glow2: rgba(102,255,255,0.6); --glow3: rgba(204,102,255,0.35); --menu-bg: rgba(255,102,204,0.12); --link-border: rgba(255,102,204,0.35); --link-bg: rgba(255,102,204,0.08); }
+    body.theme-silver { --bg: #0a0a0a; --text: #f5f5f5; --dim: #bbbbbb; --star: #dddddd; --glow1: rgba(220,220,220,0.75); --glow2: rgba(180,180,180,0.5); --glow3: rgba(140,140,140,0.25); --menu-bg: rgba(180,180,180,0.15); --link-border: rgba(180,180,180,0.4); --link-bg: rgba(120,120,120,0.12); }
+    body.theme-candy { --bg: #110022; --text: #ffffff; --dim: #ffccff; --star: #ff33ff; --glow1: rgba(255,51,255,0.95); --glow2: rgba(51,255,255,0.75); --glow3: rgba(255,153,51,0.4); --menu-bg: rgba(255,51,255,0.18); --link-border: rgba(255,51,255,0.45); --link-bg: rgba(255,51,255,0.10); }
+    body.theme-toxic { --bg: #001a00; --text: #e6ffe6; --dim: #99ff99; --star: #33ff33; --glow1: rgba(51,255,51,0.9); --glow2: rgba(0,204,0,0.65); --glow3: rgba(0,102,0,0.3); --menu-bg: rgba(51,255,51,0.14); --link-border: rgba(51,255,51,0.38); --link-bg: rgba(51,255,51,0.09); }
+    body.theme-ocean { --bg: #00051a; --text: #e6f2ff; --dim: #80ccff; --star: #3399ff; --glow1: rgba(51,153,255,0.9); --glow2: rgba(0,102,204,0.65); --glow3: rgba(0,51,153,0.3); --menu-bg: rgba(51,153,255,0.13); --link-border: rgba(51,153,255,0.36); --link-bg: rgba(51,153,255,0.08); }
+    body.theme-golden { --bg: #1a1400; --text: #fff8e6; --dim: #ffeb99; --star: #ffdd66; --glow1: rgba(255,221,102,0.9); --glow2: rgba(255,187,0,0.65); --glow3: rgba(204,136,0,0.3); --menu-bg: rgba(255,221,102,0.14); --link-border: rgba(255,221,102,0.38); --link-bg: rgba(255,221,102,0.09); }
+    body.theme-lavender { --bg: #14001a; --text: #f5e6ff; --dim: #d9b3ff; --star: #cc99ff; --glow1: rgba(204,153,255,0.9); --glow2: rgba(153,102,204,0.65); --glow3: rgba(102,51,153,0.3); --menu-bg: rgba(204,153,255,0.13); --link-border: rgba(204,153,255,0.36); --link-bg: rgba(204,153,255,0.08); }
+    body.theme-blood { --bg: #1a0005; --text: #ffe6e6; --dim: #ff9999; --star: #cc3333; --glow1: rgba(204,51,51,0.9); --glow2: rgba(153,0,0,0.65); --glow3: rgba(102,0,0,0.3); --menu-bg: rgba(204,51,51,0.14); --link-border: rgba(204,51,51,0.38); --link-bg: rgba(204,51,51,0.09); }
+    body.theme-ice { --bg: #00111a; --text: #e6faff; --dim: #99e6ff; --star: #66ddff; --glow1: rgba(102,221,255,0.9); --glow2: rgba(51,204,255,0.65); --glow3: rgba(0,153,204,0.3); --menu-bg: rgba(102,221,255,0.13); --link-border: rgba(102,221,255,0.36); --link-bg: rgba(102,221,255,0.08); }
+    body.theme-violet { --bg: #0d001a; --text: #f0e6ff; --dim: #cc99ff; --star: #aa66ff; --glow1: rgba(170,102,255,0.9); --glow2: rgba(136,68,255,0.65); --glow3: rgba(102,34,204,0.3); --menu-bg: rgba(170,102,255,0.14); --link-border: rgba(170,102,255,0.38); --link-bg: rgba(170,102,255,0.09); }
+    body.theme-desert { --bg: #1a0f00; --text: #fff5e6; --dim: #ffcc99; --star: #ff9966; --glow1: rgba(255,153,102,0.9); --glow2: rgba(255,102,51,0.65); --glow3: rgba(204,68,0,0.3); --menu-bg: rgba(255,153,102,0.14); --link-border: rgba(255,153,102,0.38); --link-bg: rgba(255,153,102,0.09); }
+    body.theme-forest { --bg: #001a0f; --text: #e6fff5; --dim: #99ffcc; --star: #33cc99; --glow1: rgba(51,204,153,0.9); --glow2: rgba(0,153,102,0.65); --glow3: rgba(0,102,68,0.3); --menu-bg: rgba(51,204,153,0.14); --link-border: rgba(51,204,153,0.38); --link-bg: rgba(51,204,153,0.09); }
+    body.theme-cherry { --bg: #1a000a; --text: #ffe6f2; --dim: #ff99cc; --star: #ff3399; --glow1: rgba(255,51,153,0.9); --glow2: rgba(204,0,102,0.65); --glow3: rgba(153,0,76,0.3); --menu-bg: rgba(255,51,153,0.14); --link-border: rgba(255,51,153,0.38); --link-bg: rgba(255,51,153,0.09); }
+    body.theme-sunset { --bg: #1a0d1a; --text: #fff0f5; --dim: #ffccff; --star: #ff99cc; --glow1: rgba(255,153,204,0.9); --glow2: rgba(255,102,153,0.65); --glow3: rgba(204,51,102,0.3); --menu-bg: rgba(255,153,204,0.14); --link-border: rgba(255,153,204,0.38); --link-bg: rgba(255,153,204,0.09); }
+    body.theme-lime { --bg: #0f1a00; --text: #f5ffe6; --dim: #ccff99; --star: #ccff33; --glow1: rgba(204,255,51,0.9); --glow2: rgba(153,204,0,0.65); --glow3: rgba(102,153,0,0.3); --menu-bg: rgba(204,255,51,0.14); --link-border: rgba(204,255,51,0.38); --link-bg: rgba(204,255,51,0.09); }
 
-    /* Core styles */
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: system-ui, sans-serif;
@@ -185,67 +92,84 @@
     @keyframes fadeIn { to { opacity: 1; } }
     .hidden { display: none !important; }
 
-    /* Pulsing center star */
     .big-star {
       width: 260px;
       height: 260px;
       margin-bottom: 2.5rem;
       background: var(--star);
       clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-      box-shadow:
-        0 0 90px var(--glow1),
-        0 0 180px var(--glow2),
-        0 0 320px var(--glow3);
-      animation:
-        bigGlow 14s infinite ease-in-out,
-        pulseLight 4.2s infinite ease-in-out;
+      box-shadow: 0 0 90px var(--glow1), 0 0 180px var(--glow2), 0 0 320px var(--glow3);
+      animation: bigGlow 14s infinite ease-in-out, pulseLight 4.2s infinite ease-in-out;
       transform: translateZ(0);
-      position: relative;
     }
-
     @keyframes bigGlow {
       0%, 100% { box-shadow: 0 0 90px var(--glow1), 0 0 180px var(--glow2), 0 0 320px var(--glow3); }
-      50%      { box-shadow: 0 0 150px var(--glow1), 0 0 300px var(--glow2), 0 0 520px var(--glow3); }
+      50% { box-shadow: 0 0 150px var(--glow1), 0 0 300px var(--glow2), 0 0 520px var(--glow3); }
     }
-
     @keyframes pulseLight {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow:
-          0 0 90px var(--glow1),
-          0 0 180px var(--glow2),
-          0 0 320px var(--glow3);
-      }
-      50% {
-        transform: scale(1.07);
-        box-shadow:
-          0 0 140px var(--glow1),
-          0 0 280px var(--glow2),
-          0 0 480px var(--glow3);
-      }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 90px var(--glow1), 0 0 180px var(--glow2), 0 0 320px var(--glow3); }
+      50% { transform: scale(1.07); box-shadow: 0 0 140px var(--glow1), 0 0 280px var(--glow2), 0 0 480px var(--glow3); }
     }
 
     h1 { font-size: 6rem; font-weight: 800; letter-spacing: -0.07em; margin-bottom: 0.6rem; text-shadow: 0 0 80px rgba(255,255,255,0.45); }
-    h2 { font-size: 3rem; margin: 3rem 0 2.5rem; }
+    h2 { font-size: 3rem; margin: 3rem 0 2rem; }
     .tagline { font-size: 1.9rem; color: var(--dim); margin-bottom: 4rem; font-weight: 300; }
-    .btn, .back-to-landing-btn {
-      padding: 1.5rem 5rem;
-      font-size: 1.7rem;
-      font-weight: 600;
-      background: white;
-      color: black;
+
+    .btn, .back-btn, .random-btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.45s ease;
+      transition: all 0.3s ease;
+      margin: 0 0.5rem;
+      display: inline-block;
+    }
+    .btn, .back-to-landing-btn {
+      background: white;
+      color: black;
       box-shadow: 0 0 80px rgba(255,255,255,0.5);
       border: none;
     }
-    .btn:hover, .back-to-landing-btn:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 0 160px rgba(255,255,255,0.85);
-      color: black;
-      background: white;
+    .btn:hover, .back-to-landing-btn:hover, .random-btn:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 120px rgba(255,255,255,0.7);
     }
+    .random-btn {
+      background: #444;
+      color: white;
+      border: 1px solid #777;
+    }
+    .random-btn:hover {
+      background: #666;
+    }
+
+    .category-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .search-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    #category-search {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border: 1px solid var(--dim);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      outline: none;
+    }
+    #category-search::placeholder {
+      color: var(--dim);
+    }
+
     .menu {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -269,13 +193,16 @@
       box-shadow: 0 0 35px rgba(255,255,255,0.25);
       transform: translateY(-6px);
     }
+
     .links {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.2rem;
-      margin-bottom: 3rem;
       max-width: 1200px;
       width: 100%;
+    }
+    .link.hidden {
+      display: none !important;
     }
     .link {
       padding: 1.3rem;
@@ -286,30 +213,14 @@
       color: white;
       transition: all 0.3s ease;
       font-size: 1.15rem;
+      text-align: center;
     }
     .link:hover {
       background: rgba(255,255,255,0.14);
       box-shadow: 0 0 30px rgba(255,255,255,0.22);
       transform: translateY(-4px);
     }
-    .back-btn {
-      padding: 1rem 3rem;
-      font-size: 1.2rem;
-      background: transparent;
-      border: 1px solid var(--dim);
-      color: var(--dim);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin: 2.5rem auto;
-      display: block;
-      width: fit-content;
-    }
-    .back-btn:hover {
-      color: white;
-      border-color: white;
-      box-shadow: 0 0 40px rgba(255,255,255,0.3);
-    }
+
     .theme-selector {
       position: absolute;
       top: 1.5rem;
@@ -332,19 +243,15 @@
       background: #111;
       color: white;
     }
+
     @media (max-width: 768px) {
       h1 { font-size: 4.8rem; }
       .big-star { width: 220px; height: 220px; }
       .tagline { font-size: 1.7rem; }
-      .btn, .back-to-landing-btn { padding: 1.3rem 4rem; font-size: 1.5rem; }
+      .btn, .random-btn { padding: 1rem 2rem; font-size: 1.1rem; }
+      .category-controls { flex-direction: column; }
       .menu { grid-template-columns: 1fr; }
       .links { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      h1 { font-size: 3.8rem; }
-      .big-star { width: 180px; height: 180px; }
-      .tagline { font-size: 1.45rem; }
-      .btn, .back-to-landing-btn { padding: 1.1rem 3rem; font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -398,25 +305,37 @@
       <button class="menu-btn" data-category="movies">Movie Sites</button>
       <button class="menu-btn" data-category="ai">AI Sites</button>
     </div>
-    <button id="back-to-landing" class="btn back-to-landing-btn">Back to Landing</button>
+    <div class="category-controls">
+      <button id="random-all" class="random-btn">Random Site</button>
+      <button id="back-to-landing" class="btn back-to-landing-btn">Back to Landing</button>
+    </div>
   </div>
 
   <!-- Categories -->
   <div class="screen hidden category-container" id="category-view">
     <div id="proxy" class="category hidden">
       <h2>Proxy Sites</h2>
-      <div class="links">
+      <div class="search-container">
+        <input type="text" id="proxy-search" placeholder="Search proxies..." autocomplete="off">
+      </div>
+      <div class="links" id="proxy-links">
         <a href="https://ali-in-a-new-dress.global.ssl.fastly.net/" target="_blank" class="link">Boredom V2</a>
         <a href="https://brightenglish.flightbooker.co.za/" target="_blank" class="link">Shadow</a>
         <a href="https://learn-2code.surge.sh/" target="_blank" class="link">Nebulo</a>
         <a href="https://travelingagent.thepresenttraveller.com/" target="_blank" class="link">Glint</a>
       </div>
-      <button class="back-btn">Back to Menu</button>
+      <div class="category-controls">
+        <button class="random-btn" data-category="proxy">Random Proxy</button>
+        <button class="back-btn">Back to Menu</button>
+      </div>
     </div>
 
     <div id="games" class="category hidden">
       <h2>Game Sites</h2>
-      <div class="links">
+      <div class="search-container">
+        <input type="text" id="games-search" placeholder="Search games..." autocomplete="off">
+      </div>
+      <div class="links" id="games-links">
         <a href="https://imadejptr.github.io/" target="_blank" class="link">imadejptr</a>
         <a href="https://theorytest.help/" target="_blank" class="link">The Marz Library</a>
         <a href="https://algebra.learnnexus.one/" target="_blank" class="link">Reds Exploit Corner</a>
@@ -425,39 +344,61 @@
         <a href="https://www.twoplayergames.org/" target="_blank" class="link">TwoPlayerGames</a>
         <a href="https://bobzgames.github.io/GBA/" target="_blank" class="link">GBA Emulator</a>
       </div>
-      <button class="back-btn">Back to Menu</button>
+      <div class="category-controls">
+        <button class="random-btn" data-category="games">Random Game</button>
+        <button class="back-btn">Back to Menu</button>
+      </div>
     </div>
 
     <div id="music" class="category hidden">
       <h2>Music Sites</h2>
-      <div class="links">
+      <div class="search-container">
+        <input type="text" id="music-search" placeholder="Search music..." autocomplete="off">
+      </div>
+      <div class="links" id="music-links">
         <a href="https://playlistsound.com/" target="_blank" class="link">PlaylistSound</a>
         <a href="https://music.amazon.com/" target="_blank" class="link">Amazon Music</a>
       </div>
-      <button class="back-btn">Back to Menu</button>
+      <div class="category-controls">
+        <button class="random-btn" data-category="music">Random Music</button>
+        <button class="back-btn">Back to Menu</button>
+      </div>
     </div>
 
     <div id="movies" class="category hidden">
       <h2>Movie Sites</h2>
-      <div class="links">
+      <div class="search-container">
+        <input type="text" id="movies-search" placeholder="Search movies..." autocomplete="off">
+      </div>
+      <div class="links" id="movies-links">
         <a href="https://donkey.to/" target="_blank" class="link">Donkey</a>
       </div>
-      <button class="back-btn">Back to Menu</button>
+      <div class="category-controls">
+        <button class="random-btn" data-category="movies">Random Movie</button>
+        <button class="back-btn">Back to Menu</button>
+      </div>
     </div>
 
     <div id="ai" class="category hidden">
       <h2>AI Sites</h2>
-      <div class="links">
+      <div class="search-container">
+        <input type="text" id="ai-search" placeholder="Search AI..." autocomplete="off">
+      </div>
+      <div class="links" id="ai-links">
         <a href="https://grok.x.ai/" target="_blank" class="link">Grok</a>
         <a href="https://copilot.microsoft.com/" target="_blank" class="link">Microsoft Copilot</a>
         <a href="https://gemini.google.com/app" target="_blank" class="link">Google Gemini</a>
         <a href="https://www.perplexity.ai/" target="_blank" class="link">Perplexity AI</a>
       </div>
-      <button class="back-btn">Back to Menu</button>
+      <div class="category-controls">
+        <button class="random-btn" data-category="ai">Random AI</button>
+        <button class="back-btn">Back to Menu</button>
+      </div>
     </div>
   </div>
 
   <script>
+    // Stars animation (unchanged)
     const container = document.getElementById('stars');
     const stars = [];
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -553,6 +494,60 @@
     document.getElementById('back-to-landing').addEventListener('click', () => {
       menu.classList.add('hidden');
       landing.classList.remove('hidden');
+    });
+
+    // Search filtering for each category
+    function setupSearch(categoryId, searchId, linksId) {
+      const searchInput = document.getElementById(searchId);
+      const linksContainer = document.getElementById(linksId);
+      if (!searchInput || !linksContainer) return;
+
+      searchInput.addEventListener('input', () => {
+        const term = searchInput.value.toLowerCase().trim();
+        const links = linksContainer.querySelectorAll('.link');
+        links.forEach(link => {
+          const text = link.textContent.toLowerCase();
+          link.classList.toggle('hidden', !text.includes(term));
+        });
+      });
+    }
+
+    setupSearch('proxy', 'proxy-search', 'proxy-links');
+    setupSearch('games', 'games-search', 'games-links');
+    setupSearch('music', 'music-search', 'music-links');
+    setupSearch('movies', 'movies-search', 'movies-links');
+    setupSearch('ai', 'ai-search', 'ai-links');
+
+    // Random button functionality
+    function getRandomLink(linksContainer) {
+      const visibleLinks = Array.from(linksContainer.querySelectorAll('.link:not(.hidden)'));
+      if (visibleLinks.length === 0) return null;
+      const randomIndex = Math.floor(Math.random() * visibleLinks.length);
+      return visibleLinks[randomIndex].getAttribute('href');
+    }
+
+    // Random in individual categories
+    document.querySelectorAll('.random-btn[data-category]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const categoryId = btn.dataset.category;
+        const linksContainer = document.getElementById(categoryId + '-links');
+        if (!linksContainer) return;
+        const url = getRandomLink(linksContainer);
+        if (url) window.open(url, '_blank');
+      });
+    });
+
+    // Random across ALL categories
+    document.getElementById('random-all')?.addEventListener('click', () => {
+      const allLinksContainers = document.querySelectorAll('.links');
+      let allVisibleLinks = [];
+      allLinksContainers.forEach(container => {
+        allVisibleLinks = allVisibleLinks.concat(Array.from(container.querySelectorAll('.link:not(.hidden)')));
+      });
+      if (allVisibleLinks.length === 0) return;
+      const randomIndex = Math.floor(Math.random() * allVisibleLinks.length);
+      const url = allVisibleLinks[randomIndex].getAttribute('href');
+      window.open(url, '_blank');
     });
   </script>
 </body>
