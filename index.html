@@ -405,4 +405,167 @@
       star.style.width = size + 'px';
       star.style.height = size + 'px';
       const baseOpacity = 0.45 + Math.random() * 0.4;
-      star.style.set
+      star.style.setProperty('--base-opacity', baseOpacity);
+      star.style.setProperty('--delay', i);
+      star.baseX = Math.random();
+      star.baseY = Math.random();
+      star.offsetX = 0;
+      star.offsetY = 0;
+      star.vx = (Math.random() - 0.5) * 0.12;
+      star.vy = (Math.random() - 0.5) * 0.12;
+      star.damping = 0.935 + Math.random() * 0.03;
+      container.appendChild(star);
+      stars.push(star);
+    }
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    function animate() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      stars.forEach(star => {
+        let targetX = star.baseX * w;
+        let targetY = star.baseY * h;
+        const dx = mouse.x - targetX;
+        const dy = mouse.y - targetY;
+        const dist = Math.hypot(dx, dy) || 1;
+        const force = Math.min(80 / dist, 1.2);
+        star.vx += (dx / dist) * force * 0.085;
+        star.vy += (dy / dist) * force * 0.085;
+        star.vx += (Math.random() - 0.5) * 0.006;
+        star.vy += (Math.random() - 0.5) * 0.006;
+        star.vx *= star.damping;
+        star.vy *= star.damping;
+        star.offsetX += star.vx;
+        star.offsetY += star.vy;
+        if (Math.abs(star.offsetX) > w * 1.2) star.offsetX *= 0.35;
+        if (Math.abs(star.offsetY) > h * 1.2) star.offsetY *= 0.35;
+        const x = targetX + star.offsetX;
+        const y = targetY + star.offsetY;
+        star.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {});
+
+    // Theme switcher
+    document.getElementById('theme-select').addEventListener('change', e => {
+      document.body.className = 'theme-' + e.target.value;
+    });
+
+    // Navigation
+    const landing = document.getElementById('landing');
+    const menu = document.getElementById('menu');
+    const categoryView = document.getElementById('category-view');
+
+    document.getElementById('get-started').addEventListener('click', () => {
+      landing.classList.add('hidden');
+      menu.classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.menu-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const catId = btn.dataset.category;
+        menu.classList.add('hidden');
+        categoryView.classList.remove('hidden');
+        document.querySelectorAll('.category').forEach(cat => cat.classList.add('hidden'));
+        document.getElementById(catId).classList.remove('hidden');
+      });
+    });
+
+    document.querySelectorAll('.back-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryView.classList.add('hidden');
+        menu.classList.remove('hidden');
+      });
+    });
+
+    document.getElementById('back-to-landing').addEventListener('click', () => {
+      menu.classList.add('hidden');
+      landing.classList.remove('hidden');
+    });
+
+    // Search + Clear + Open All
+    function setupCategory(categoryId) {
+      const search = document.getElementById(`search-${categoryId}`);
+      const clearBtn = document.querySelector(`#${categoryId} .clear-btn`);
+      const openAllBtn = document.querySelector(`#${categoryId} .open-all-btn`);
+      const linksContainer = document.getElementById(`links-${categoryId}`);
+
+      if (!search || !linksContainer) return;
+
+      // Search filtering
+      search.addEventListener('input', () => {
+        const term = search.value.toLowerCase().trim();
+        const links = linksContainer.querySelectorAll('.link');
+        links.forEach(link => {
+          const text = link.textContent.toLowerCase();
+          link.classList.toggle('hidden', term && !text.includes(term));
+        });
+      });
+
+      // Clear search
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          search.value = '';
+          const links = linksContainer.querySelectorAll('.link');
+          links.forEach(link => link.classList.remove('hidden'));
+          search.focus();
+        });
+      }
+
+      // Open all visible
+      if (openAllBtn) {
+        openAllBtn.addEventListener('click', () => {
+          const visible = Array.from(linksContainer.querySelectorAll('.link:not(.hidden)'));
+          if (visible.length === 0) {
+            alert("No visible links to open in this category.");
+            return;
+          }
+          if (visible.length > 8) {
+            if (!confirm(`Opening ${visible.length} tabs — continue?`)) return;
+          }
+          visible.forEach(link => window.open(link.href, '_blank'));
+        });
+      }
+    }
+
+    // Set up all categories
+    ['proxy','games','music','movies','ai'].forEach(setupCategory);
+
+    // Random across all (unchanged)
+    document.getElementById('random-all')?.addEventListener('click', () => {
+      const allLinks = [];
+      document.querySelectorAll('.links').forEach(cont => {
+        cont.querySelectorAll('.link:not(.hidden)').forEach(l => allLinks.push(l.href));
+      });
+      if (allLinks.length === 0) {
+        alert("No visible sites anywhere!");
+        return;
+      }
+      const randomUrl = allLinks[Math.floor(Math.random() * allLinks.length)];
+      window.open(randomUrl, '_blank');
+    });
+
+    // Category random (unchanged)
+    document.querySelectorAll('.random-btn[data-for]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.for;
+        const container = document.getElementById(`links-${cat}`);
+        const visible = Array.from(container.querySelectorAll('.link:not(.hidden)'));
+        if (visible.length === 0) {
+          alert("No visible links in this category!");
+          return;
+        }
+        const randomUrl = visible[Math.floor(Math.random() * visible.length)].href;
+        window.open(randomUrl, '_blank');
+      });
+    });
+  </script>
+</body>
+</html>
