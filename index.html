@@ -22,7 +22,7 @@
       --link-bg: rgba(255,255,255,0.06);
     }
 
-    /* Themes (all 24 kept) */
+    /* All 24 themes (unchanged) */
     body.theme-cosmic {}
     body.theme-neon {--bg:#0a0015;--text:#e0f7ff;--dim:#a0d8ff;--star:#ff00aa;--glow1:rgba(255,0,170,0.9);--glow2:rgba(0,255,255,0.7);--glow3:rgba(255,0,170,0.3);--menu-bg:rgba(0,255,255,0.12);--link-border:rgba(0,255,255,0.4);--link-bg:rgba(0,255,255,0.08);}
     body.theme-purple {--bg:#0f001a;--text:#e6d9ff;--dim:#b399ff;--star:#aa66ff;--glow1:rgba(170,102,255,0.9);--glow2:rgba(170,102,255,0.6);--glow3:rgba(170,102,255,0.25);--menu-bg:rgba(170,102,255,0.12);--link-border:rgba(170,102,255,0.35);--link-bg:rgba(170,102,255,0.08);}
@@ -59,12 +59,7 @@
       cursor:default;
       transition:background .6s ease;
     }
-    #stars {
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:1;
-    }
+    #stars {position:fixed;inset:0;pointer-events:none;z-index:1;}
     .star {
       position:absolute;
       background:var(--star);
@@ -110,52 +105,59 @@
     }
 
     h1{font-size:6rem;font-weight:800;letter-spacing:-.07em;margin-bottom:.6rem;text-shadow:0 0 80px rgba(255,255,255,.45);}
-    h2{font-size:3rem;margin:3rem 0 2rem;}
+    h2{font-size:3rem;margin:2rem 0 1.5rem;}
     .tagline{font-size:1.9rem;color:var(--dim);margin-bottom:4rem;font-weight:300;}
 
-    .btn,.back-btn,.random-btn {
-      padding:1rem 2.5rem;
-      font-size:1.2rem;
+    .btn,.back-btn,.random-btn,.clear-btn,.open-all-btn {
+      padding:1rem 2rem;
+      font-size:1.1rem;
       border-radius:999px;
       cursor:pointer;
       transition:all .3s ease;
-      margin:0 .5rem;
+      margin:0 .4rem;
       display:inline-block;
     }
-    .btn,.back-to-landing-btn {
+    .btn,.back-to-landing-btn,.open-all-btn {
       background:white;
       color:black;
-      box-shadow:0 0 80px rgba(255,255,255,.5);
+      box-shadow:0 0 60px rgba(255,255,255,.4);
       border:none;
     }
-    .btn:hover,.back-to-landing-btn:hover,.random-btn:hover{transform:translateY(-6px);box-shadow:0 0 120px rgba(255,255,255,.7);}
-    .random-btn{background:#444;color:white;border:1px solid #777;}
-    .random-btn:hover{background:#666;}
+    .btn:hover,.back-to-landing-btn:hover,.open-all-btn:hover,.random-btn:hover,.clear-btn:hover {
+      transform:translateY(-4px);
+      box-shadow:0 0 100px rgba(255,255,255,.6);
+    }
+    .random-btn,.clear-btn {background:#444;color:white;border:1px solid #777;}
+    .random-btn:hover,.clear-btn:hover {background:#666;}
+    .open-all-btn {background:#0066cc;color:white;border:none;}
 
     .category-controls {
       display:flex;
       justify-content:center;
-      gap:1rem;
+      gap:.8rem;
       margin:2rem 0;
       flex-wrap:wrap;
     }
 
-    .search-container {
+    .search-wrapper {
+      display:flex;
       width:100%;
       max-width:600px;
-      margin:0 auto 2rem;
+      margin:0 auto 1.5rem;
+      gap:.8rem;
     }
     input[type="text"] {
-      width:100%;
+      flex:1;
       padding:1rem;
-      font-size:1.2rem;
+      font-size:1.1rem;
       border:1px solid var(--dim);
       border-radius:12px;
       background:rgba(255,255,255,.05);
       color:white;
       outline:none;
     }
-    input[type="text"]::placeholder{color:var(--dim);}
+    input[type="text"]::placeholder {color:var(--dim);}
+    .clear-btn {padding:1rem 1.5rem; min-width:80px;}
 
     .menu {
       display:grid;
@@ -163,11 +165,11 @@
       gap:1.6rem;
       max-width:1200px;
       width:100%;
-      margin:1rem 0 4rem;
+      margin:1rem 0 3rem;
     }
     .menu-btn {
-      padding:1.3rem 2.2rem;
-      font-size:1.45rem;
+      padding:1.3rem 2rem;
+      font-size:1.4rem;
       background:var(--menu-bg);
       color:white;
       border:1px solid rgba(255,255,255,.18);
@@ -190,14 +192,14 @@
     }
     .link.hidden {display:none!important;}
     .link {
-      padding:1.3rem;
+      padding:1.2rem;
       background:var(--link-bg);
       border:1px solid var(--link-border);
       border-radius:10px;
       text-decoration:none;
       color:white;
       transition:all .3s ease;
-      font-size:1.15rem;
+      font-size:1.1rem;
       text-align:center;
     }
     .link:hover {
@@ -208,11 +210,11 @@
 
     .theme-selector {
       position:absolute;
-      top:1.5rem;
-      right:1.5rem;
+      top:1rem;
+      right:1rem;
       background:rgba(255,255,255,.08);
-      padding:.6rem 1.2rem;
-      border-radius:12px;
+      padding:.5rem 1rem;
+      border-radius:10px;
       border:1px solid rgba(255,255,255,.2);
       z-index:20;
     }
@@ -220,29 +222,20 @@
       background:transparent;
       color:white;
       border:none;
-      font-size:1rem;
+      font-size:.95rem;
       cursor:pointer;
       outline:none;
     }
-    .theme-selector option {
-      background:#111;
-      color:white;
-    }
+    .theme-selector option {background:#111;color:white;}
 
     @media (max-width:768px) {
       h1{font-size:4.8rem;}
       .big-star{width:220px;height:220px;}
       .tagline{font-size:1.7rem;}
-      .btn,.random-btn{padding:1rem 2rem;font-size:1.1rem;}
-      .category-controls{flex-direction:column;}
+      .search-wrapper{flex-direction:column;}
+      .category-controls{flex-direction:column;gap:.8rem;}
       .menu{grid-template-columns:1fr;}
       .links{grid-template-columns:1fr;}
-    }
-    @media (max-width:480px) {
-      h1{font-size:3.8rem;}
-      .big-star{width:180px;height:180px;}
-      .tagline{font-size:1.45rem;}
-      .btn,.random-btn{padding:1rem 2rem;font-size:1rem;}
     }
   </style>
 </head>
@@ -306,8 +299,9 @@
   <div class="screen hidden category-container" id="category-view">
     <div id="proxy" class="category hidden">
       <h2>Proxy Sites</h2>
-      <div class="search-container">
+      <div class="search-wrapper">
         <input type="text" id="search-proxy" placeholder="Search proxies..." autocomplete="off">
+        <button class="clear-btn">Clear</button>
       </div>
       <div class="links" id="links-proxy">
         <a href="https://ali-in-a-new-dress.global.ssl.fastly.net/" target="_blank" class="link">Boredom V2</a>
@@ -317,14 +311,16 @@
       </div>
       <div class="category-controls">
         <button class="random-btn" data-for="proxy">Random Proxy</button>
+        <button class="open-all-btn" data-for="proxy">Open All</button>
         <button class="back-btn">Back to Menu</button>
       </div>
     </div>
 
     <div id="games" class="category hidden">
       <h2>Game Sites</h2>
-      <div class="search-container">
+      <div class="search-wrapper">
         <input type="text" id="search-games" placeholder="Search games..." autocomplete="off">
+        <button class="clear-btn">Clear</button>
       </div>
       <div class="links" id="links-games">
         <a href="https://imadejptr.github.io/" target="_blank" class="link">imadejptr</a>
@@ -337,14 +333,16 @@
       </div>
       <div class="category-controls">
         <button class="random-btn" data-for="games">Random Game</button>
+        <button class="open-all-btn" data-for="games">Open All</button>
         <button class="back-btn">Back to Menu</button>
       </div>
     </div>
 
     <div id="music" class="category hidden">
       <h2>Music Sites</h2>
-      <div class="search-container">
+      <div class="search-wrapper">
         <input type="text" id="search-music" placeholder="Search music..." autocomplete="off">
+        <button class="clear-btn">Clear</button>
       </div>
       <div class="links" id="links-music">
         <a href="https://playlistsound.com/" target="_blank" class="link">PlaylistSound</a>
@@ -352,28 +350,32 @@
       </div>
       <div class="category-controls">
         <button class="random-btn" data-for="music">Random Music</button>
+        <button class="open-all-btn" data-for="music">Open All</button>
         <button class="back-btn">Back to Menu</button>
       </div>
     </div>
 
     <div id="movies" class="category hidden">
       <h2>Movie Sites</h2>
-      <div class="search-container">
+      <div class="search-wrapper">
         <input type="text" id="search-movies" placeholder="Search movies..." autocomplete="off">
+        <button class="clear-btn">Clear</button>
       </div>
       <div class="links" id="links-movies">
         <a href="https://donkey.to/" target="_blank" class="link">Donkey</a>
       </div>
       <div class="category-controls">
         <button class="random-btn" data-for="movies">Random Movie</button>
+        <button class="open-all-btn" data-for="movies">Open All</button>
         <button class="back-btn">Back to Menu</button>
       </div>
     </div>
 
     <div id="ai" class="category hidden">
       <h2>AI Sites</h2>
-      <div class="search-container">
+      <div class="search-wrapper">
         <input type="text" id="search-ai" placeholder="Search AI..." autocomplete="off">
+        <button class="clear-btn">Clear</button>
       </div>
       <div class="links" id="links-ai">
         <a href="https://grok.x.ai/" target="_blank" class="link">Grok</a>
@@ -383,6 +385,7 @@
       </div>
       <div class="category-controls">
         <button class="random-btn" data-for="ai">Random AI</button>
+        <button class="open-all-btn" data-for="ai">Open All</button>
         <button class="back-btn">Back to Menu</button>
       </div>
     </div>
@@ -402,149 +405,4 @@
       star.style.width = size + 'px';
       star.style.height = size + 'px';
       const baseOpacity = 0.45 + Math.random() * 0.4;
-      star.style.setProperty('--base-opacity', baseOpacity);
-      star.style.setProperty('--delay', i);
-      star.baseX = Math.random();
-      star.baseY = Math.random();
-      star.offsetX = 0;
-      star.offsetY = 0;
-      star.vx = (Math.random() - 0.5) * 0.12;
-      star.vy = (Math.random() - 0.5) * 0.12;
-      star.damping = 0.935 + Math.random() * 0.03;
-      container.appendChild(star);
-      stars.push(star);
-    }
-
-    window.addEventListener('mousemove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    function animate() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      stars.forEach(star => {
-        let targetX = star.baseX * w;
-        let targetY = star.baseY * h;
-        const dx = mouse.x - targetX;
-        const dy = mouse.y - targetY;
-        const dist = Math.hypot(dx, dy) || 1;
-        const force = Math.min(80 / dist, 1.2);
-        star.vx += (dx / dist) * force * 0.085;
-        star.vy += (dy / dist) * force * 0.085;
-        star.vx += (Math.random() - 0.5) * 0.006;
-        star.vy += (Math.random() - 0.5) * 0.006;
-        star.vx *= star.damping;
-        star.vy *= star.damping;
-        star.offsetX += star.vx;
-        star.offsetY += star.vy;
-        if (Math.abs(star.offsetX) > w * 1.2) star.offsetX *= 0.35;
-        if (Math.abs(star.offsetY) > h * 1.2) star.offsetY *= 0.35;
-        const x = targetX + star.offsetX;
-        const y = targetY + star.offsetY;
-        star.style.transform = `translate(${x}px, ${y}px)`;
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    window.addEventListener('resize', () => {});
-
-    // Theme switcher
-    document.getElementById('theme-select').addEventListener('change', e => {
-      document.body.className = 'theme-' + e.target.value;
-    });
-
-    // Navigation
-    const landing = document.getElementById('landing');
-    const menu = document.getElementById('menu');
-    const categoryView = document.getElementById('category-view');
-
-    document.getElementById('get-started').addEventListener('click', () => {
-      landing.classList.add('hidden');
-      menu.classList.remove('hidden');
-    });
-
-    document.querySelectorAll('.menu-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const catId = btn.dataset.category;
-        menu.classList.add('hidden');
-        categoryView.classList.remove('hidden');
-        document.querySelectorAll('.category').forEach(cat => cat.classList.add('hidden'));
-        document.getElementById(catId).classList.remove('hidden');
-      });
-    });
-
-    document.querySelectorAll('.back-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        categoryView.classList.add('hidden');
-        menu.classList.remove('hidden');
-      });
-    });
-
-    document.getElementById('back-to-landing').addEventListener('click', () => {
-      menu.classList.add('hidden');
-      landing.classList.remove('hidden');
-    });
-
-    // Search filtering
-    function setupSearch(searchId, linksId) {
-      const search = document.getElementById(searchId);
-      const linksContainer = document.getElementById(linksId);
-      if (!search || !linksContainer) return;
-
-      search.addEventListener('input', () => {
-        const term = search.value.toLowerCase().trim();
-        const links = linksContainer.querySelectorAll('.link');
-        links.forEach(link => {
-          const text = link.textContent.toLowerCase();
-          link.classList.toggle('hidden', term && !text.includes(term));
-        });
-      });
-    }
-
-    setupSearch('search-proxy', 'links-proxy');
-    setupSearch('search-games', 'links-games');
-    setupSearch('search-music', 'links-music');
-    setupSearch('search-movies', 'links-movies');
-    setupSearch('search-ai', 'links-ai');
-
-    // Random link function
-    function getRandomVisibleLink(linksContainerId) {
-      const container = document.getElementById(linksContainerId);
-      if (!container) return null;
-      const visible = Array.from(container.querySelectorAll('.link:not(.hidden)'));
-      if (visible.length === 0) {
-        alert("No visible links to choose from in this category!");
-        return null;
-      }
-      const random = Math.floor(Math.random() * visible.length);
-      return visible[random].href;
-    }
-
-    // Category-specific random buttons
-    document.querySelectorAll('.random-btn[data-for]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const category = btn.dataset.for;
-        const url = getRandomVisibleLink(`links-${category}`);
-        if (url) window.open(url, '_blank');
-      });
-    });
-
-    // Random from ALL categories
-    document.getElementById('random-all')?.addEventListener('click', () => {
-      const allContainers = document.querySelectorAll('.links');
-      let allVisible = [];
-      allContainers.forEach(cont => {
-        allVisible = allVisible.concat(Array.from(cont.querySelectorAll('.link:not(.hidden)')));
-      });
-      if (allVisible.length === 0) {
-        alert("No visible sites anywhere!");
-        return;
-      }
-      const random = Math.floor(Math.random() * allVisible.length);
-      window.open(allVisible[random].href, '_blank');
-    });
-  </script>
-</body>
-</html>
+      star.style.set
