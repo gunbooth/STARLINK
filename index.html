@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STARLINK</title>
+
+  <!-- Favicon: ✦ (black four pointed star) via inline SVG - modern & lightweight -->
+  <link rel="icon" href="data:,">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' text-anchor='middle' x='50%25'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+
   <style>
     :root {
       --bg-color: #000000;
@@ -158,7 +163,6 @@
     <option value="monochrome">Void Monochrome</option>
     <option value="nightmare">Nightmare</option>
   </select>
-
   <!-- Landing (main menu) -->
   <div id="landing" class="section active">
     <div class="logo-container">
@@ -169,7 +173,6 @@
     <button class="button" onclick="showSection('credits')">Credits</button>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6yVI8STpBo-DUvD8GnNSx3x8HiX007XC46nZT1BN5nzg9Sw/viewform" target="_blank" class="button">Site Requests</a>
   </div>
-
   <!-- Categories -->
   <div id="categories" class="section">
     <div class="title">Choose Your Category</div>
@@ -183,7 +186,6 @@
     </div>
     <button class="back-button" onclick="showSection('landing')">Back</button>
   </div>
-
   <!-- Proxy Sites -->
   <div id="proxy" class="section">
     <div class="title">Proxy Sites</div>
@@ -197,7 +199,6 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
-
   <!-- Game Sites -->
   <div id="games" class="section">
     <div class="title">Game Sites</div>
@@ -211,7 +212,6 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
-
   <!-- Music Sites -->
   <div id="music" class="section">
     <div class="title">Music Sites</div>
@@ -222,7 +222,6 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
-
   <!-- AI Sites -->
   <div id="ai" class="section">
     <div class="title">AI Sites</div>
@@ -235,7 +234,6 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
-
   <!-- Movie Sites -->
   <div id="movies" class="section">
     <div class="title">Movie Sites</div>
@@ -245,7 +243,6 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
-
   <!-- Credits -->
   <div id="credits" class="section">
     <div class="title">Credits</div>
@@ -257,7 +254,6 @@
 
   <script>
     const themeSelect = document.getElementById('theme-select');
-
     function applyTheme(theme) {
       document.body.setAttribute('data-theme', theme);
       const root = document.documentElement;
@@ -279,46 +275,38 @@
       root.style.setProperty('--glass-border', t.glassBorder);
       root.style.setProperty('--button-bg', '#0a0a0a');
     }
-
     function changeTheme(theme) {
       applyTheme(theme);
       localStorage.setItem('starlinkTheme', theme);
     }
-
     const savedTheme = localStorage.getItem('starlinkTheme') || 'space';
     themeSelect.value = savedTheme;
     applyTheme(savedTheme);
-
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
-
     function filterCategories() {
       const val = document.getElementById('category-search').value.toLowerCase();
       document.querySelectorAll('.category-list .button').forEach(b => {
         b.style.display = b.textContent.toLowerCase().includes(val) ? 'inline-block' : 'none';
       });
     }
-
     function filterSites(cat) {
       const val = document.getElementById(`${cat}-search`).value.toLowerCase();
       document.querySelectorAll(`#${cat}-list .button`).forEach(b => {
         b.style.display = b.textContent.toLowerCase().includes(val) ? 'inline-block' : 'none';
       });
     }
-
     // Starfield – increased speed for relaxing semi-fast movement
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
-
     class Star {
       constructor() { this.reset(); }
       reset() {
@@ -327,14 +315,12 @@
         this.z = Math.random() * 3 + 1;
         this.size = Math.random() * 1.6 + 0.7 / this.z;
         this.glow = Math.random() * 0.25 + 0.75;
-        // Increased speed: 3–4× faster but still smooth & relaxing
-        this.dx = (Math.random() - 0.5) * 0.12 / this.z;  // was ~0.03
+        this.dx = (Math.random() - 0.5) * 0.12 / this.z;
         this.dy = (Math.random() - 0.5) * 0.12 / this.z;
       }
       update() {
         this.x += this.dx;
         this.y += this.dy;
-        // Wrap around with wider margin for smoother feel
         if (this.x < -150) this.x = canvas.width + 150;
         if (this.x > canvas.width + 150) this.x = -150;
         if (this.y < -150) this.y = canvas.height + 150;
@@ -349,9 +335,7 @@
         ctx.fill();
       }
     }
-
     const stars = Array.from({length: 420}, () => new Star());
-
     function animate() {
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -362,4 +346,3 @@
   </script>
 </body>
 </html>
-
