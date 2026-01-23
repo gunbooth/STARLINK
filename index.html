@@ -4,24 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STARLINK</title>
-  <!-- Favicon: Inline SVG white star (crisp, scalable). Replace with your own file for best cross-browser support -->
+  <!-- Favicon: Inline SVG white star (crisp, scalable). Replace with your own file if needed -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,10 61,35 90,40 68,60 73,90 50,75 27,90 32,60 10,40 39,35' fill='white'/></svg>" type="image/svg+xml">
   <style>
     :root {
-      --bg-color: #000000;
+      --bg-color: #000000; /* Pitch black */
       --text-color: #ffffff;
       --accent-color: #ffffff;
-      --glass-bg: rgba(255, 255, 255, 0.06);
-      --glass-blur: blur(12px);
-      --glow-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-      --pulse-glow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2);
+      --glass-bg: rgba(255, 255, 255, 0.08); /* Slightly more opaque for liquid glass */
+      --glass-blur: blur(15px);
+      --glow-shadow: 0 0 40px rgba(255, 255, 255, 0.7); /* Stronger glow */
+      --pulse-glow: 0 0 30px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.3), 0 0 90px rgba(255, 255, 255, 0.1); /* Enhanced pulsing */
       --transition: all 0.4s ease;
     }
     body {
       margin: 0;
       padding: 0;
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(to bottom, #000000, #0a0015);
+      background: var(--bg-color);
       color: var(--text-color);
       overflow: hidden;
       display: flex;
@@ -46,29 +46,42 @@
       padding: 2rem;
     }
     .active { display: block; }
-    .logo {
-      font-size: 9rem; /* Big star */
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin: 1rem 0 3rem;
+    }
+    .logo-star {
+      font-size: 9rem;
       line-height: 0.8;
       animation: pulse-glow 4s ease-in-out infinite;
       text-shadow: var(--pulse-glow);
-      filter: drop-shadow(0 0 30px rgba(255,255,255,0.5));
+      filter: drop-shadow(0 0 40px rgba(255,255,255,0.6)); /* Stronger drop-shadow for glow */
+    }
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: bold;
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      text-shadow: 0 0 15px rgba(255,255,255,0.4);
     }
     @keyframes pulse-glow {
-      0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.1); }
-      50%      { text-shadow: 0 0 50px rgba(255,255,255,0.9), 0 0 80px rgba(255,255,255,0.4); }
+      0%, 100% { text-shadow: 0 0 30px rgba(255,255,255,0.6), 0 0 60px rgba(255,255,255,0.2); }
+      50%      { text-shadow: 0 0 60px rgba(255,255,255,1), 0 0 120px rgba(255,255,255,0.5); }
     }
     .button {
       background: var(--glass-bg);
       backdrop-filter: var(--glass-blur);
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
       color: white;
       padding: 1.2rem 2.5rem;
       margin: 1rem;
       border-radius: 999px;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.15);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.2);
       font-size: 1.3rem;
       font-weight: 500;
       text-decoration: none;
@@ -76,18 +89,18 @@
     }
     .button:hover {
       transform: translateY(-6px) scale(1.05);
-      box-shadow: 0 15px 40px rgba(255,255,255,0.3), 0 0 30px rgba(255,255,255,0.4);
+      box-shadow: 0 15px 40px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.5);
     }
-    .white-button { background: rgba(255,255,255,0.9); color: #000; }
+    .white-button { background: rgba(255,255,255,0.95); color: #000; }
     .title {
       font-size: 3rem;
       margin: 1rem 0 2rem;
-      text-shadow: 0 0 15px rgba(255,255,255,0.5);
+      text-shadow: 0 0 20px rgba(255,255,255,0.5);
     }
     .search-bar {
       background: var(--glass-bg);
       backdrop-filter: var(--glass-blur);
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
       color: white;
       padding: 1.2rem;
       width: 80%; max-width: 450px;
@@ -98,7 +111,7 @@
     }
     .search-bar::placeholder { color: rgba(255,255,255,0.6); }
     .category-list, .site-list {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
     }
     .credits {
       position: absolute; bottom: 1.5rem; font-size: 0.9rem; opacity: 0.6;
@@ -108,16 +121,86 @@
 <body>
   <canvas id="stars-canvas"></canvas>
 
-  <!-- Landing -->
+  <!-- Landing Section -->
   <div id="landing" class="section active">
-    <div class="logo">✦</div> <!-- Big pulsing white star (Unicode diamond star for better scaling/glow) -->
+    <div class="logo-container">
+      <div class="logo-star">✦</div>
+      <div class="logo-text">STARLINK</div>
+    </div>
     <button class="button white-button" onclick="showSection('categories')">Get Started</button>
     <button class="button white-button" onclick="showSection('credits')">Credits</button>
   </div>
 
-  <!-- Your other sections (categories, proxy, games, etc.) go here – unchanged from before, or add the sites as previously suggested -->
+  <!-- Categories Section -->
+  <div id="categories" class="section">
+    <button class="button white-button" onclick="showSection('landing')">Back</button>
+    <div class="title">Choose Your Category</div>
+    <input type="text" class="search-bar" id="category-search" oninput="filterCategories()" placeholder="Search categories...">
+    <div class="category-list">
+      <button class="button" onclick="showSection('proxy')">Proxy Sites</button>
+      <button class="button" onclick="showSection('games')">Game Sites</button>
+      <button class="button" onclick="showSection('music')">Music Sites</button>
+      <button class="button" onclick="showSection('ai')">AI Sites</button>
+      <button class="button" onclick="showSection('movies')">Movie Sites</button>
+    </div>
+  </div>
 
-  <!-- Credits -->
+  <!-- Proxy Sites Section -->
+  <div id="proxy" class="section">
+    <button class="button white-button" onclick="showSection('categories')">Back</button>
+    <div class="title">Proxy Sites</div>
+    <input type="text" class="search-bar" id="proxy-search" oninput="filterSites('proxy')" placeholder="Search proxy sites...">
+    <div class="site-list" id="proxy-list">
+      <!-- Add your proxy site links here as buttons, e.g. -->
+      <!-- <a href="https://example.com" target="_blank" class="button">Example Proxy</a> -->
+    </div>
+  </div>
+
+  <!-- Game Sites Section -->
+  <div id="games" class="section">
+    <button class="button white-button" onclick="showSection('categories')">Back</button>
+    <div class="title">Game Sites</div>
+    <input type="text" class="search-bar" id="games-search" oninput="filterSites('games')" placeholder="Search game sites...">
+    <div class="site-list" id="games-list">
+      <!-- Add your game site links here as buttons, e.g. -->
+      <!-- <a href="https://example.com" target="_blank" class="button">Example Game</a> -->
+    </div>
+  </div>
+
+  <!-- Music Sites Section -->
+  <div id="music" class="section">
+    <button class="button white-button" onclick="showSection('categories')">Back</button>
+    <div class="title">Music Sites</div>
+    <input type="text" class="search-bar" id="music-search" oninput="filterSites('music')" placeholder="Search music sites...">
+    <div class="site-list" id="music-list">
+      <!-- Add your music site links here as buttons, e.g. -->
+      <!-- <a href="https://example.com" target="_blank" class="button">Example Music</a> -->
+    </div>
+  </div>
+
+  <!-- AI Sites Section -->
+  <div id="ai" class="section">
+    <button class="button white-button" onclick="showSection('categories')">Back</button>
+    <div class="title">AI Sites</div>
+    <input type="text" class="search-bar" id="ai-search" oninput="filterSites('ai')" placeholder="Search AI sites...">
+    <div class="site-list" id="ai-list">
+      <!-- Add your AI site links here as buttons, e.g. -->
+      <!-- <a href="https://example.com" target="_blank" class="button">Example AI</a> -->
+    </div>
+  </div>
+
+  <!-- Movie Sites Section -->
+  <div id="movies" class="section">
+    <button class="button white-button" onclick="showSection('categories')">Back</button>
+    <div class="title">Movie Sites</div>
+    <input type="text" class="search-bar" id="movies-search" oninput="filterSites('movies')" placeholder="Search movie sites...">
+    <div class="site-list" id="movies-list">
+      <!-- Add your movie site links here as buttons, e.g. -->
+      <!-- <a href="https://example.com" target="_blank" class="button">Example Movie</a> -->
+    </div>
+  </div>
+
+  <!-- Credits Section -->
   <div id="credits" class="section">
     <button class="button white-button" onclick="showSection('landing')">Back</button>
     <div class="title">Credits</div>
@@ -146,11 +229,9 @@
       });
     }
 
-    // Improved Starfield
+    // Starfield (no cursor following, just gentle drift)
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
-    let mouseX = canvas.width / 2;
-    let mouseY = canvas.height / 2;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -160,11 +241,6 @@
       canvas.height = window.innerHeight;
     });
 
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
     class Star {
       constructor() {
         this.reset();
@@ -172,27 +248,18 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.z = Math.random() * 3 + 1; // "depth" layer (1=farthest, 4=closest)
+        this.z = Math.random() * 3 + 1;
         this.size = Math.random() * 1.5 + 0.5 / this.z;
         this.glow = Math.random() * 0.4 + 0.6;
-        this.speed = 0.1 / this.z; // farther = slower
+        this.speed = 0.05 / this.z; // Slower drift
+        this.dx = (Math.random() - 0.5) * this.speed;
+        this.dy = (Math.random() - 0.5) * this.speed;
       }
       update() {
-        // Gentle attraction (much weaker)
-        const dx = mouseX - this.x;
-        const dy = mouseY - this.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 300) {
-          const force = (300 - dist) / 300 * 1.2 / this.z; // weaker for farther stars
-          this.x += dx / dist * force;
-          this.y += dy / dist * force;
-        }
+        this.x += this.dx;
+        this.y += this.dy;
 
-        // Very slow natural drift
-        this.x += (Math.random() - 0.5) * this.speed;
-        this.y += (Math.random() - 0.5) * this.speed;
-
-        // Gentle wrap (no hard jump)
+        // Gentle wrap
         if (this.x < -50) this.x = canvas.width + 50;
         if (this.x > canvas.width + 50) this.x = -50;
         if (this.y < -50) this.y = canvas.height + 50;
@@ -202,7 +269,7 @@
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${this.glow})`;
-        ctx.shadowBlur = 12 / this.z;
+        ctx.shadowBlur = 15 / this.z;
         ctx.shadowColor = 'white';
         ctx.fill();
       }
@@ -211,7 +278,7 @@
     const stars = Array.from({length: 300}, () => new Star());
 
     function animate() {
-      ctx.fillStyle = 'rgba(0,0,0,0.08)'; // subtle trail
+      ctx.fillStyle = 'rgba(0,0,0,0.05)'; // Subtle trail for smoothness
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       stars.forEach(star => {
