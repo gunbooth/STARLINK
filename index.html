@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STARLINK</title>
-  <!-- Favicon: White star SVG -->
+  <!-- Favicon: White star SVG (will be tinted via CSS when needed) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,10 61,35 90,40 68,60 73,90 50,75 27,90 32,60 10,40 39,35' fill='white'/></svg>" type="image/svg+xml">
   <style>
     :root {
@@ -12,9 +12,11 @@
       --text-color: #ffffff;
       --accent-color: #ffffff;
       --glow-color: rgba(255, 255, 255, 0.75);
+      --star-color: rgba(255, 255, 255, 1);
+      --logo-glow: 0 0 35px rgba(255,255,255,0.65), 0 0 70px rgba(255,255,255,0.35), 0 0 100px rgba(255,255,255,0.1);
+      --shadow-glow: 0 0 45px var(--glow-color);
       --glass-bg: rgba(255, 255, 255, 0.07);
       --glass-border: rgba(255, 255, 255, 0.18);
-      --pulse-glow: 0 0 35px rgba(255,255,255,0.65), 0 0 70px rgba(255,255,255,0.35), 0 0 100px rgba(255,255,255,0.1);
       --transition: all 0.35s ease;
     }
     body {
@@ -61,7 +63,7 @@
       backdrop-filter: blur(15px);
       border: 1px solid var(--glass-border);
       border-radius: 999px;
-      color: white;
+      color: var(--text-color);
       font-size: 1rem;
       cursor: pointer;
       outline: none;
@@ -76,8 +78,9 @@
       font-size: 10rem;
       line-height: 0.8;
       animation: pulse-glow 6s ease-in-out infinite;
-      text-shadow: var(--pulse-glow);
-      filter: drop-shadow(0 0 50px var(--glow-color));
+      color: var(--accent-color);
+      text-shadow: var(--logo-glow);
+      filter: drop-shadow(var(--shadow-glow));
     }
     .logo-text {
       font-size: 3rem;
@@ -85,23 +88,24 @@
       letter-spacing: 0.4rem;
       text-transform: uppercase;
       margin-top: 0.8rem;
-      text-shadow: 0 0 30px rgba(255,255,255,0.5);
+      color: var(--accent-color);
+      text-shadow: 0 0 30px var(--glow-color);
     }
     @keyframes pulse-glow {
-      0%, 100% { text-shadow: var(--pulse-glow); }
+      0%, 100% { text-shadow: var(--logo-glow); }
       50% { text-shadow: 0 0 90px var(--glow-color), 0 0 180px rgba(255,255,255,0.4); }
     }
     .button, .back-button {
       background: var(--glass-bg);
       backdrop-filter: blur(15px);
       border: 1px solid var(--glass-border);
-      color: white;
+      color: var(--text-color);
       padding: 1.3rem 2.8rem;
       margin: 1rem;
       border-radius: 999px;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.15);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px var(--glow-color);
       font-size: 1.35rem;
       font-weight: 500;
       text-decoration: none;
@@ -109,7 +113,7 @@
     }
     .button:hover, .back-button:hover {
       transform: translateY(-5px) scale(1.04);
-      box-shadow: 0 15px 40px rgba(255,255,255,0.3), 0 0 45px var(--glow-color);
+      box-shadow: 0 15px 40px var(--glow-color), 0 0 45px var(--glow-color);
     }
     .back-button {
       margin-top: 3rem;
@@ -121,13 +125,14 @@
     .title {
       font-size: 3.5rem;
       margin: 1rem 0 2rem;
-      text-shadow: 0 0 25px rgba(255,255,255,0.5);
+      color: var(--accent-color);
+      text-shadow: 0 0 25px var(--glow-color);
     }
     .search-bar {
       background: var(--glass-bg);
       backdrop-filter: blur(15px);
       border: 1px solid var(--glass-border);
-      color: white;
+      color: var(--text-color);
       padding: 1.3rem;
       width: 80%; max-width: 480px;
       border-radius: 999px;
@@ -149,6 +154,7 @@
       bottom: 1.5rem;
       font-size: 0.95rem;
       opacity: 0.65;
+      color: var(--text-color);
     }
   </style>
 </head>
@@ -162,6 +168,7 @@
     <option value="arctic">Arctic Blue</option>
     <option value="matrix">Matrix Green</option>
     <option value="monochrome">Void Monochrome</option>
+    <option value="nightmare">Nightmare</option>
   </select>
 
   <!-- Landing -->
@@ -193,7 +200,7 @@
     <div class="title">Proxy Sites</div>
     <input type="text" class="search-bar" id="proxy-search" oninput="filterSites('proxy')" placeholder="Search proxy sites...">
     <div class="site-list" id="proxy-list">
-      <!-- Add your proxy links here, e.g. <a href="..." target="_blank" class="button">Site</a> -->
+      <!-- Add your proxy links here -->
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
@@ -248,6 +255,90 @@
   </div>
 
   <script>
+    const themeSelect = document.getElementById('theme-select');
+
+    function applyTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      const root = document.documentElement;
+
+      const themes = {
+        space: {
+          accent: '#ffffff',
+          glow: 'rgba(255,255,255,0.75)',
+          star: 'rgba(255,255,255,1)',
+          logoGlow: '0 0 35px rgba(255,255,255,0.65), 0 0 70px rgba(255,255,255,0.35), 0 0 100px rgba(255,255,255,0.1)',
+          glassBg: 'rgba(255,255,255,0.07)',
+          glassBorder: 'rgba(255,255,255,0.18)'
+        },
+        cyberpunk: {
+          accent: '#00ffff',
+          glow: 'rgba(0,255,255,0.8)',
+          star: 'rgba(0,255,255,1)',
+          logoGlow: '0 0 40px #ff00ff, 0 0 80px #00ffff, 0 0 120px #00ff9f',
+          glassBg: 'rgba(0,255,255,0.05)',
+          glassBorder: 'rgba(255,0,255,0.3)'
+        },
+        purple: {
+          accent: '#c084fc',
+          glow: 'rgba(168,85,247,0.7)',
+          star: 'rgba(168,85,247,1)',
+          logoGlow: '0 0 35px #a855f7, 0 0 70px #c084fc',
+          glassBg: 'rgba(168,85,247,0.06)',
+          glassBorder: 'rgba(168,85,247,0.25)'
+        },
+        arctic: {
+          accent: '#67e8f9',
+          glow: 'rgba(103,232,249,0.7)',
+          star: 'rgba(103,232,249,1)',
+          logoGlow: '0 0 35px #67e8f9, 0 0 70px #a5f3fc',
+          glassBg: 'rgba(103,232,249,0.06)',
+          glassBorder: 'rgba(103,232,249,0.25)'
+        },
+        matrix: {
+          accent: '#00ff41',
+          glow: 'rgba(0,255,65,0.7)',
+          star: 'rgba(0,255,65,1)',
+          logoGlow: '0 0 40px #00ff41, 0 0 80px #00cc33',
+          glassBg: 'rgba(0,255,65,0.05)',
+          glassBorder: 'rgba(0,255,65,0.3)'
+        },
+        monochrome: {
+          accent: '#dddddd',
+          glow: 'rgba(255,255,255,0.5)',
+          star: 'rgba(255,255,255,0.9)',
+          logoGlow: '0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.2)',
+          glassBg: 'rgba(255,255,255,0.04)',
+          glassBorder: 'rgba(255,255,255,0.15)'
+        },
+        nightmare: {
+          accent: '#ff1a1a',
+          glow: 'rgba(255, 26, 26, 0.85)',
+          star: 'rgba(220, 20, 60, 1)',
+          logoGlow: '0 0 50px #ff0000, 0 0 100px #cc0000, 0 0 150px #990000',
+          glassBg: 'rgba(200, 0, 0, 0.06)',
+          glassBorder: 'rgba(220, 20, 60, 0.35)'
+        }
+      };
+
+      const t = themes[theme] || themes.space;
+      root.style.setProperty('--accent-color', t.accent);
+      root.style.setProperty('--glow-color', t.glow);
+      root.style.setProperty('--star-color', t.star);
+      root.style.setProperty('--logo-glow', t.logoGlow);
+      root.style.setProperty('--glass-bg', t.glassBg);
+      root.style.setProperty('--glass-border', t.glassBorder);
+    }
+
+    function changeTheme(theme) {
+      applyTheme(theme);
+      localStorage.setItem('starlinkTheme', theme);
+    }
+
+    // Load saved theme or default
+    const savedTheme = localStorage.getItem('starlinkTheme') || 'space';
+    themeSelect.value = savedTheme;
+    applyTheme(savedTheme);
+
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -267,49 +358,7 @@
       });
     }
 
-    function changeTheme(theme) {
-      document.body.setAttribute('data-theme', theme);
-      const root = document.documentElement;
-      if (theme === 'space') {
-        root.style.setProperty('--accent-color', '#ffffff');
-        root.style.setProperty('--glow-color', 'rgba(255,255,255,0.75)');
-        root.style.setProperty('--glass-bg', 'rgba(255,255,255,0.07)');
-        root.style.setProperty('--glass-border', 'rgba(255,255,255,0.18)');
-        root.style.setProperty('--pulse-glow', '0 0 35px rgba(255,255,255,0.65), 0 0 70px rgba(255,255,255,0.35), 0 0 100px rgba(255,255,255,0.1)');
-      } else if (theme === 'cyberpunk') {
-        root.style.setProperty('--accent-color', '#00ffff');
-        root.style.setProperty('--glow-color', 'rgba(0,255,255,0.8)');
-        root.style.setProperty('--glass-bg', 'rgba(0, 255, 255, 0.05)');
-        root.style.setProperty('--glass-border', 'rgba(255,0,255,0.3)');
-        root.style.setProperty('--pulse-glow', '0 0 40px #ff00ff, 0 0 80px #00ffff, 0 0 120px #00ff9f');
-      } else if (theme === 'purple') {
-        root.style.setProperty('--accent-color', '#c084fc');
-        root.style.setProperty('--glow-color', 'rgba(168,85,247,0.7)');
-        root.style.setProperty('--glass-bg', 'rgba(168,85,247,0.06)');
-        root.style.setProperty('--glass-border', 'rgba(168,85,247,0.25)');
-        root.style.setProperty('--pulse-glow', '0 0 35px #a855f7, 0 0 70px #c084fc');
-      } else if (theme === 'arctic') {
-        root.style.setProperty('--accent-color', '#67e8f9');
-        root.style.setProperty('--glow-color', 'rgba(103,232,249,0.7)');
-        root.style.setProperty('--glass-bg', 'rgba(103,232,249,0.06)');
-        root.style.setProperty('--glass-border', 'rgba(103,232,249,0.25)');
-        root.style.setProperty('--pulse-glow', '0 0 35px #67e8f9, 0 0 70px #a5f3fc');
-      } else if (theme === 'matrix') {
-        root.style.setProperty('--accent-color', '#00ff41');
-        root.style.setProperty('--glow-color', 'rgba(0,255,65,0.7)');
-        root.style.setProperty('--glass-bg', 'rgba(0,255,65,0.05)');
-        root.style.setProperty('--glass-border', 'rgba(0,255,65,0.3)');
-        root.style.setProperty('--pulse-glow', '0 0 40px #00ff41, 0 0 80px #00cc33');
-      } else if (theme === 'monochrome') {
-        root.style.setProperty('--accent-color', '#dddddd');
-        root.style.setProperty('--glow-color', 'rgba(255,255,255,0.5)');
-        root.style.setProperty('--glass-bg', 'rgba(255,255,255,0.04)');
-        root.style.setProperty('--glass-border', 'rgba(255,255,255,0.15)');
-        root.style.setProperty('--pulse-glow', '0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(255,255,255,0.2)');
-      }
-    }
-
-    // Starfield – smooth, slightly faster professional drift
+    // Starfield with theme-colored stars
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -328,7 +377,7 @@
         this.z = Math.random() * 3 + 1;
         this.size = Math.random() * 1.9 + 0.8 / this.z;
         this.glow = Math.random() * 0.3 + 0.75;
-        this.dx = (Math.random() - 0.5) * 0.15 / this.z;  // faster but smooth
+        this.dx = (Math.random() - 0.5) * 0.15 / this.z;
         this.dy = (Math.random() - 0.5) * 0.15 / this.z;
       }
       update() {
@@ -342,9 +391,9 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.glow})`;
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--star-color').trim();
         ctx.shadowBlur = 22 / this.z;
-        ctx.shadowColor = 'white';
+        ctx.shadowColor = getComputedStyle(document.body).getPropertyValue('--glow-color').trim();
         ctx.fill();
       }
     }
@@ -352,7 +401,7 @@
     const stars = Array.from({length: 380}, () => new Star());
 
     function animate() {
-      ctx.fillStyle = '#000000';  // NO trail – pure black refresh
+      ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       stars.forEach(star => { star.update(); star.draw(); });
       requestAnimationFrame(animate);
