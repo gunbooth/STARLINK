@@ -195,52 +195,87 @@
     <button class="back-button" onclick="showSection('landing')">Back</button>
   </div>
 
-  <!-- Proxy -->
+  <!-- Proxy Sites -->
   <div id="proxy" class="section">
     <div class="title">Proxy Sites</div>
     <input type="text" class="search-bar" id="proxy-search" oninput="filterSites('proxy')" placeholder="Search proxy sites...">
     <div class="site-list" id="proxy-list">
-      <!-- Add links here -->
+      <!-- Replace these with your own links and names -->
+      <a href="https://www.croxyproxy.com/" target="_blank" class="button">CroxyProxy</a>
+      <a href="https://proxysite.com/" target="_blank" class="button">ProxySite</a>
+      <a href="https://www.4everproxy.com/" target="_blank" class="button">4everproxy</a>
+      <a href="https://hide.me/en/proxy" target="_blank" class="button">hide.me Proxy</a>
+      <a href="https://kproxy.com/" target="_blank" class="button">KProxy</a>
+      <!-- Add more like this: -->
+      <!-- <a href="YOUR_URL_HERE" target="_blank" class="button">Your Site Name</a> -->
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
 
-  <!-- Games -->
+  <!-- Game Sites -->
   <div id="games" class="section">
     <div class="title">Game Sites</div>
     <input type="text" class="search-bar" id="games-search" oninput="filterSites('games')" placeholder="Search game sites...">
     <div class="site-list" id="games-list">
-      <!-- Add links here -->
+      <!-- Replace these with your own links and names -->
+      <a href="https://www.crazygames.com/" target="_blank" class="button">CrazyGames</a>
+      <a href="https://poki.com/" target="_blank" class="button">Poki</a>
+      <a href="https://www.coolmathgames.com/" target="_blank" class="button">Coolmath Games</a>
+      <a href="https://now.gg/" target="_blank" class="button">Now.gg</a>
+      <a href="https://www.miniclip.com/" target="_blank" class="button">Miniclip</a>
+      <!-- Add more like this: -->
+      <!-- <a href="YOUR_URL_HERE" target="_blank" class="button">Your Game Name</a> -->
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
 
-  <!-- Music -->
+  <!-- Music Sites -->
   <div id="music" class="section">
     <div class="title">Music Sites</div>
     <input type="text" class="search-bar" id="music-search" oninput="filterSites('music')" placeholder="Search music sites...">
     <div class="site-list" id="music-list">
-      <!-- Add links here -->
+      <!-- Replace these with your own links and names -->
+      <a href="https://soundcloud.com/" target="_blank" class="button">SoundCloud</a>
+      <a href="https://open.spotify.com/" target="_blank" class="button">Spotify Web</a>
+      <a href="https://www.deezer.com/" target="_blank" class="button">Deezer</a>
+      <a href="https://www.youtube.com/" target="_blank" class="button">YouTube Music</a>
+      <a href="https://www.bandcamp.com/" target="_blank" class="button">Bandcamp</a>
+      <!-- Add more like this: -->
+      <!-- <a href="YOUR_URL_HERE" target="_blank" class="button">Your Music Site</a> -->
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
 
-  <!-- AI -->
+  <!-- AI Sites -->
   <div id="ai" class="section">
     <div class="title">AI Sites</div>
     <input type="text" class="search-bar" id="ai-search" oninput="filterSites('ai')" placeholder="Search AI sites...">
     <div class="site-list" id="ai-list">
-      <!-- Add links here -->
+      <!-- Replace these with your own links and names -->
+      <a href="https://chat.openai.com/" target="_blank" class="button">ChatGPT</a>
+      <a href="https://gemini.google.com/" target="_blank" class="button">Google Gemini</a>
+      <a href="https://claude.ai/" target="_blank" class="button">Claude</a>
+      <a href="https://www.perplexity.ai/" target="_blank" class="button">Perplexity</a>
+      <a href="https://groq.com/" target="_blank" class="button">GroqChat</a>
+      <!-- Add more like this: -->
+      <!-- <a href="YOUR_URL_HERE" target="_blank" class="button">Your AI Tool</a> -->
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
 
-  <!-- Movies -->
+  <!-- Movie Sites -->
   <div id="movies" class="section">
     <div class="title">Movie Sites</div>
     <input type="text" class="search-bar" id="movies-search" oninput="filterSites('movies')" placeholder="Search movie sites...">
     <div class="site-list" id="movies-list">
-      <!-- Add links here -->
+      <!-- Replace these with your own links and names -->
+      <a href="https://tubitv.com/" target="_blank" class="button">Tubi</a>
+      <a href="https://pluto.tv/" target="_blank" class="button">Pluto TV</a>
+      <a href="https://www.rokuchannel.com/" target="_blank" class="button">Roku Channel</a>
+      <a href="https://www.youtube.com/feed/storefront?bp=ogUCKAI%3D" target="_blank" class="button">YouTube Free Movies</a>
+      <a href="https://www.crackle.com/" target="_blank" class="button">Crackle</a>
+      <!-- Add more like this: -->
+      <!-- <a href="YOUR_URL_HERE" target="_blank" class="button">Your Movie Site</a> -->
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
@@ -249,7 +284,7 @@
   <div id="credits" class="section">
     <div class="title">Credits</div>
     <p>Built by Gunnar Booth</p>
-    <p>GitHub: <a href="https://github.com/gunbooth/STARLINK" style="color:var(--accent-color);">View Repo</a></p>
+    <p>GitHub: <a href="https://github.com/yourusername/yourrepo" style="color:var(--accent-color);">View Repo</a></p>
     <p>Next-gen space UI • 2026</p>
     <button class="back-button" onclick="showSection('landing')">Back</button>
   </div>
@@ -335,7 +370,6 @@
       localStorage.setItem('starlinkTheme', theme);
     }
 
-    // Load saved theme
     const savedTheme = localStorage.getItem('starlinkTheme') || 'space';
     themeSelect.value = savedTheme;
     applyTheme(savedTheme);
@@ -359,7 +393,7 @@
       });
     }
 
-    // Starfield – smooth, slow, gentle movement, no cursor interaction
+    // Starfield – smooth, slow drift, no mouse interaction
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -375,17 +409,15 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.z = Math.random() * 3 + 1; // depth
+        this.z = Math.random() * 3 + 1;
         this.size = Math.random() * 1.6 + 0.7 / this.z;
         this.glow = Math.random() * 0.25 + 0.75;
-        // Very slow, smooth drift
         this.dx = (Math.random() - 0.5) * 0.06 / this.z;
         this.dy = (Math.random() - 0.5) * 0.06 / this.z;
       }
       update() {
         this.x += this.dx;
         this.y += this.dy;
-        // Gentle wrap-around
         if (this.x < -100) this.x = canvas.width + 100;
         if (this.x > canvas.width + 100) this.x = -100;
         if (this.y < -100) this.y = canvas.height + 100;
@@ -413,4 +445,3 @@
   </script>
 </body>
 </html>
-
