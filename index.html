@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STARLINK</title>
-
   <!-- Favicon: white ✦ (four pointed star) via inline SVG -->
   <link rel="icon" href="data:,">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' text-anchor='middle' x='50%25' fill='white'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
-
   <style>
     :root {
       --bg-color: #000000;
@@ -21,7 +19,7 @@
       --glass-bg: rgba(20, 20, 20, 0.65);
       --glass-border: rgba(60, 60, 60, 0.4);
       --button-bg: #0a0a0a;
-      --transition: all 0.35s ease;
+      --transition: all 0.28s cubic-bezier(0.165, 0.84, 0.44, 1);   /* faster + snappier feel */
     }
     body {
       margin: 0;
@@ -74,6 +72,7 @@
       min-width: 180px;
       text-align: center;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: var(--transition);
     }
     .logo-container {
       margin: 4rem 0 3rem;
@@ -116,10 +115,12 @@
       display: inline-block;
       outline: none;
       text-align: center;
+      will-change: transform, box-shadow;           /* ← GPU acceleration hint */
+      transform: translateY(0) scale(1);            /* explicit base state */
     }
     .button:hover, .back-button:hover, .search-bar:focus {
-      transform: translateY(-5px) scale(1.04);
-      box-shadow: 0 15px 40px var(--glow-color), 0 0 45px var(--glow-color);
+      transform: translateY(-8px) scale(1.05);      /* more noticeable lift + slight grow */
+      box-shadow: 0 18px 48px var(--glow-color), 0 0 55px var(--glow-color);
     }
     .back-button {
       margin-top: 3rem;
@@ -163,6 +164,7 @@
     <option value="monochrome">Void Monochrome</option>
     <option value="nightmare">Nightmare</option>
   </select>
+
   <!-- Landing (main menu) -->
   <div id="landing" class="section active">
     <div class="logo-container">
@@ -173,6 +175,7 @@
     <button class="button" onclick="showSection('credits')">Credits</button>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6yVI8STpBo-DUvD8GnNSx3x8HiX007XC46nZT1BN5nzg9Sw/viewform" target="_blank" class="button">Site Requests</a>
   </div>
+
   <!-- Categories -->
   <div id="categories" class="section">
     <div class="title">Choose Your Category</div>
@@ -186,6 +189,7 @@
     </div>
     <button class="back-button" onclick="showSection('landing')">Back</button>
   </div>
+
   <!-- Proxy Sites -->
   <div id="proxy" class="section">
     <div class="title">Proxy Sites</div>
@@ -199,6 +203,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Game Sites -->
   <div id="games" class="section">
     <div class="title">Game Sites</div>
@@ -212,6 +217,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Music Sites -->
   <div id="music" class="section">
     <div class="title">Music Sites</div>
@@ -222,6 +228,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- AI Sites -->
   <div id="ai" class="section">
     <div class="title">AI Sites</div>
@@ -234,6 +241,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Movie Sites -->
   <div id="movies" class="section">
     <div class="title">Movie Sites</div>
@@ -243,6 +251,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Credits -->
   <div id="credits" class="section">
     <div class="title">Credits</div>
@@ -282,23 +291,27 @@
     const savedTheme = localStorage.getItem('starlinkTheme') || 'space';
     themeSelect.value = savedTheme;
     applyTheme(savedTheme);
+
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
+
     function filterCategories() {
       const val = document.getElementById('category-search').value.toLowerCase();
       document.querySelectorAll('.category-list .button').forEach(b => {
         b.style.display = b.textContent.toLowerCase().includes(val) ? 'inline-block' : 'none';
       });
     }
+
     function filterSites(cat) {
       const val = document.getElementById(`${cat}-search`).value.toLowerCase();
       document.querySelectorAll(`#${cat}-list .button`).forEach(b => {
         b.style.display = b.textContent.toLowerCase().includes(val) ? 'inline-block' : 'none';
       });
     }
-    // Starfield – increased speed for relaxing semi-fast movement
+
+    // Starfield
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -307,6 +320,7 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
+
     class Star {
       constructor() { this.reset(); }
       reset() {
@@ -335,7 +349,9 @@
         ctx.fill();
       }
     }
+
     const stars = Array.from({length: 420}, () => new Star());
+
     function animate() {
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
