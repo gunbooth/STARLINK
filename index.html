@@ -21,7 +21,8 @@
       --glass-bg: rgba(20, 20, 20, 0.65);
       --glass-border: rgba(60, 60, 60, 0.4);
       --button-bg: #0a0a0a;
-      --transition: all 0.1s ease;
+      --transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --hover-transition: all 0.55s cubic-bezier(0.23, 1, 0.32, 1);
     }
     body {
       margin: 0;
@@ -74,6 +75,11 @@
       min-width: 180px;
       text-align: center;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: var(--transition);
+    }
+    .theme-selector:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.5);
     }
     .logo-container {
       margin: 4rem 0 3rem;
@@ -81,7 +87,7 @@
     .logo-star {
       font-size: 10rem;
       line-height: 0.8;
-      animation: pulse-glow 7s ease-in-out infinite;
+      animation: pulse-glow 9s ease-in-out infinite;
       color: var(--accent-color);
       text-shadow: var(--logo-glow);
       filter: drop-shadow(var(--shadow-glow));
@@ -108,7 +114,7 @@
       margin: 1rem;
       border-radius: 999px;
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--hover-transition);
       box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px var(--glow-color);
       font-size: 1.35rem;
       font-weight: 500;
@@ -116,10 +122,12 @@
       display: inline-block;
       outline: none;
       text-align: center;
+      will-change: transform, box-shadow, filter;
     }
     .button:hover, .back-button:hover, .search-bar:focus {
-      transform: translateY(-5px) scale(1.04);
-      box-shadow: 0 15px 40px var(--glow-color), 0 0 45px var(--glow-color);
+      transform: translateY(-12px) scale(1.06);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 60px var(--glow-color), 0 0 100px var(--glow-color);
+      filter: brightness(1.15);
     }
     .back-button {
       margin-top: 3rem;
@@ -163,6 +171,7 @@
     <option value="monochrome">Void Monochrome</option>
     <option value="nightmare">Nightmare</option>
   </select>
+
   <!-- Landing (main menu) -->
   <div id="landing" class="section active">
     <div class="logo-container">
@@ -173,6 +182,7 @@
     <button class="button" onclick="showSection('credits')">Credits</button>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6yVI8STpBo-DUvD8GnNSx3x8HiX007XC46nZT1BN5nzg9Sw/viewform" target="_blank" class="button">Site Requests</a>
   </div>
+
   <!-- Categories -->
   <div id="categories" class="section">
     <div class="title">Choose Your Category</div>
@@ -186,6 +196,7 @@
     </div>
     <button class="back-button" onclick="showSection('landing')">Back</button>
   </div>
+
   <!-- Proxy Sites -->
   <div id="proxy" class="section">
     <div class="title">Proxy Sites</div>
@@ -199,6 +210,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Game Sites -->
   <div id="games" class="section">
     <div class="title">Game Sites</div>
@@ -212,6 +224,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Music Sites -->
   <div id="music" class="section">
     <div class="title">Music Sites</div>
@@ -222,6 +235,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- AI Sites -->
   <div id="ai" class="section">
     <div class="title">AI Sites</div>
@@ -234,6 +248,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Movie Sites -->
   <div id="movies" class="section">
     <div class="title">Movie Sites</div>
@@ -243,6 +258,7 @@
     </div>
     <button class="back-button" onclick="showSection('categories')">Back</button>
   </div>
+
   <!-- Credits -->
   <div id="credits" class="section">
     <div class="title">Credits</div>
@@ -254,6 +270,7 @@
 
   <script>
     const themeSelect = document.getElementById('theme-select');
+
     function applyTheme(theme) {
       document.body.setAttribute('data-theme', theme);
       const root = document.documentElement;
@@ -275,75 +292,106 @@
       root.style.setProperty('--glass-border', t.glassBorder);
       root.style.setProperty('--button-bg', '#0a0a0a');
     }
+
     function changeTheme(theme) {
       applyTheme(theme);
       localStorage.setItem('starlinkTheme', theme);
     }
+
     const savedTheme = localStorage.getItem('starlinkTheme') || 'space';
     themeSelect.value = savedTheme;
     applyTheme(savedTheme);
+
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
+
     function filterCategories() {
       const val = document.getElementById('category-search').value.toLowerCase();
       document.querySelectorAll('.category-list .button').forEach(b => {
         b.style.display = b.textContent.toLowerCase().includes(val) ? 'inline-block' : 'none';
       });
     }
+
     function filterSites(cat) {
       const val = document.getElementById(`${cat}-search`).value.toLowerCase();
       document.querySelectorAll(`#${cat}-list .button`).forEach(b => {
         b.style.display = b.textContent.toLowerCase().includes(val) ? 'inline-block' : 'none';
       });
     }
-    // Starfield – increased speed for relaxing semi-fast movement
+
+    // ────────────────────────────────────────────────
+    //   Improved smooth & gentle starfield
+    // ────────────────────────────────────────────────
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    window.addEventListener('resize', () => {
+
+    function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-    });
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
     class Star {
-      constructor() { this.reset(); }
+      constructor() {
+        this.reset();
+      }
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.z = Math.random() * 3 + 1;
-        this.size = Math.random() * 1.6 + 0.7 / this.z;
-        this.glow = Math.random() * 0.25 + 0.75;
-        this.dx = (Math.random() - 0.5) * 0.12 / this.z;
-        this.dy = (Math.random() - 0.5) * 0.12 / this.z;
+        this.z = Math.random() * 2.8 + 0.6;     // depth
+        this.baseSize = Math.random() * 1.4 + 0.5;
+        this.size = this.baseSize / this.z;
+        this.brightness = Math.random() * 0.35 + 0.65;
+        // very gentle random drift
+        this.speed = 0.06 + Math.random() * 0.11;
+        const angle = Math.random() * Math.PI * 2;
+        this.dx = Math.cos(angle) * this.speed / this.z;
+        this.dy = Math.sin(angle) * this.speed / this.z;
+        this.twinklePhase = Math.random() * Math.PI * 2;
       }
-      update() {
+      update(time) {
         this.x += this.dx;
         this.y += this.dy;
-        if (this.x < -150) this.x = canvas.width + 150;
-        if (this.x > canvas.width + 150) this.x = -150;
-        if (this.y < -150) this.y = canvas.height + 150;
-        if (this.y > canvas.height + 150) this.y = -150;
+
+        // wrap around with padding
+        if (this.x < -100) this.x = canvas.width + 100;
+        if (this.x > canvas.width + 100) this.x = -100;
+        if (this.y < -100) this.y = canvas.height + 100;
+        if (this.y > canvas.height + 100) this.y = -100;
+
+        // gentle twinkle (size + brightness oscillation)
+        const twinkle = Math.sin(time * 0.0008 + this.twinklePhase) * 0.3 + 0.7;
+        this.size = (this.baseSize * twinkle) / this.z;
       }
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--star-color').trim();
-        ctx.shadowBlur = 18 / this.z;
+        const col = getComputedStyle(document.body).getPropertyValue('--star-color').trim();
+        ctx.fillStyle = col.replace('1)', this.brightness + ')'); // respect theme color + brightness
+        ctx.shadowBlur = 12 / this.z;
         ctx.shadowColor = getComputedStyle(document.body).getPropertyValue('--glow-color').trim();
         ctx.fill();
       }
     }
-    const stars = Array.from({length: 420}, () => new Star());
-    function animate() {
-      ctx.fillStyle = '#000000';
+
+    const stars = Array.from({ length: 480 }, () => new Star());
+
+    let lastTime = 0;
+    function animate(time = 0) {
+      ctx.fillStyle = 'rgba(0,0,0,0.4)'; // very light trail → smoothness
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(star => { star.update(); star.draw(); });
+
+      stars.forEach(star => {
+        star.update(time);
+        star.draw();
+      });
+
       requestAnimationFrame(animate);
     }
     animate();
   </script>
 </body>
 </html>
-
