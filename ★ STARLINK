@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>★ STARLINK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0e17;
+      color: #e0f0ff;
+      font-family: 'Roboto Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background stars */
+    .stars {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="10" cy="10" r="1" fill="white" opacity="0.7"/></svg>') repeat,
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><circle cx="30" cy="50" r="0.8" fill="white" opacity="0.5"/></svg>') repeat;
+      background-size: cover, 120px 120px, 200px 200px;
+      animation: drift 180s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes drift {
+      from { background-position: 0 0, 0 0, 0 0; }
+      to   { background-position: 100px 100px, -40px -60px, 80px 120px; }
+    }
+
+    header {
+      height: 100vh;
+      min-height: 720px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 0 5vw;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(4.5rem, 14vw, 16rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      background: linear-gradient(90deg, #a0d8ef, #ffffff, #a0d8ef);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 40px rgba(160, 220, 255, 0.6);
+      margin-bottom: 0.2em;
+      line-height: 0.9;
+    }
+
+    .star-symbol {
+      font-size: 0.7em;
+      vertical-align: middle;
+      margin: 0 0.1em;
+      animation: pulse 4s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.6; transform: scale(0.92); }
+      to   { opacity: 1;   transform: scale(1.08); }
+    }
+
+    .tagline {
+      font-size: clamp(1.3rem, 4vw, 2.4rem);
+      font-weight: 300;
+      color: #a0d8ef;
+      margin: 0.8em 0 2em;
+      letter-spacing: 0.06em;
+      opacity: 0.92;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.6rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(145deg, #1e90ff, #00bfff);
+      border: none;
+      border-radius: 50px;
+      text-decoration: none;
+      margin: 0.6rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 30px rgba(30, 144, 255, 0.4);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.06);
+      box-shadow: 0 0 60px rgba(0, 191, 255, 0.7);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #40c0ff;
+      color: #40c0ff;
+    }
+
+    .btn-outline:hover {
+      background: rgba(64, 192, 255, 0.12);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 5vh;
+      font-size: 1.1rem;
+      color: #60a0ff;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(12px); }
+    }
+
+    /* Small footer */
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+      color: #506080;
+      font-size: 0.9rem;
+      border-top: 1px solid #1a2535;
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<header>
+  <h1 class="logo">
+    <span class="star-symbol">★</span>STARLINK<span class="star-symbol">★</span>
+  </h1>
+  
+  <p class="tagline">Global broadband from low Earth orbit</p>
+
+  <div>
+    <a href="#" class="btn">Order Now</a>
+    <a href="#" class="btn btn-outline">Learn More</a>
+  </div>
+
+  <div class="scroll-hint">↓ scroll to explore</div>
+</header>
+
+<footer>
+  <p>★ STARLINK — Connecting the unconnected • 2026</p>
+</footer>
+
+</body>
+</html>
