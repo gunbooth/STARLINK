@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starlink • Unblocked Sites</title>
+    <title>Starlink</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
@@ -14,6 +14,7 @@
 
         .card {
             transition: all 0.25s ease;
+            position: relative;
         }
         .card:hover {
             transform: translateY(-4px);
@@ -23,114 +24,116 @@
             box-shadow: 0 10px 20px rgba(255,255,255,0.06);
         }
 
-        .nav-link {
-            position: relative;
+        .delete-btn {
+            opacity: 0;
+            transition: opacity 0.2s;
         }
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: currentColor;
-            transition: width 0.3s ease;
+        .card:hover .delete-btn {
+            opacity: 0.7;
         }
-        .nav-link:hover:after,
-        .nav-link.active:after { width: 100%; }
+        .delete-btn:hover {
+            opacity: 1 !important;
+            color: #ef4444 !important; /* red on hover */
+        }
+
+        .tab {
+            transition: all 0.2s;
+        }
+        .tab.active {
+            border-bottom: 3px solid currentColor;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body class="bg-white dark:bg-black text-black dark:text-white min-h-screen transition-colors duration-300">
 
     <!-- NAVBAR -->
-    <nav class="border-b border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-black/90 backdrop-blur-md fixed w-full z-50">
+    <nav class="border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-black/95 backdrop-blur-md fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <!-- Inline SVG star logo -->
-                <svg id="logo-svg" class="h-9 w-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
-                          fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg class="h-9 w-9 text-black dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                 </svg>
                 <span class="logo-font text-3xl font-semibold tracking-tight">Starlink</span>
             </div>
 
-            <div class="flex items-center gap-10 text-sm font-medium">
-                <a href="#sites" class="nav-link active">Sites</a>
-                <a href="#about" class="nav-link">About</a>
+            <div class="flex items-center gap-12 text-sm font-medium">
+                <a href="#" class="tab active" onclick="showCategory('home')">Home</a>
+                <a href="#proxies" class="tab" onclick="showCategory('proxies')">Proxies</a>
+                <a href="#games" class="tab" onclick="showCategory('games')">Games</a>
+                <a href="#music" class="tab" onclick="showCategory('music')">Music</a>
+                <a href="#tv" class="tab" onclick="showCategory('tv')">TV</a>
+                <a href="#ai" class="tab" onclick="showCategory('ai')">AI</a>
             </div>
 
-            <div class="flex items-center gap-5">
-                <button onclick="toggleTheme()" title="Toggle theme"
-                        class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
-                    <i class="fa-solid fa-moon text-lg dark:hidden"></i>
-                    <i class="fa-solid fa-sun text-lg hidden dark:inline"></i>
-                </button>
-
-                <a href="https://github.com/YOUR-USERNAME/starlink" target="_blank"
-                   class="flex items-center gap-2 bg-black text-white dark:bg-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
-                    <i class="fa-brands fa-github"></i> GitHub
-                </a>
-            </div>
+            <button onclick="toggleTheme()" title="Toggle theme"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+                <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                <i class="fa-solid fa-sun text-lg hidden dark:inline"></i>
+            </button>
         </div>
     </nav>
 
-    <!-- HERO – now just "Starlink" with star -->
-    <section class="pt-32 pb-20 text-center">
+    <!-- HERO / HOME -->
+    <section id="home" class="pt-32 pb-20 text-center category-section">
         <div class="max-w-5xl mx-auto px-6">
-            <div class="flex items-center justify-center gap-4 mb-2">
-                <!-- Larger inline star for hero -->
-                <svg class="h-16 w-16 text-black dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <svg class="h-20 w-20 text-black dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                 </svg>
-                <h1 class="text-7xl md:text-8xl font-semibold logo-font tracking-tighter">Starlink</h1>
+                <h1 class="text-8xl font-semibold logo-font tracking-tighter">Starlink</h1>
             </div>
+            <p class="text-2xl text-gray-600 dark:text-gray-400">Your personal hub</p>
         </div>
     </section>
 
-    <!-- SITES -->
-    <section id="sites" class="max-w-7xl mx-auto px-6 pb-20">
-        <div class="flex items-center justify-between mb-10">
-            <h2 class="text-5xl font-semibold logo-font tracking-tight">Sites</h2>
-            <div class="relative w-80">
-                <input id="search" type="text" placeholder="Search..." oninput="filterSites()"
-                       class="w-full bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 focus:border-black dark:focus:border-white rounded-full px-5 py-3 pl-12 text-sm focus:outline-none transition-colors">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"></i>
-            </div>
-        </div>
+    <!-- CATEGORIES (example for proxies – others follow same pattern) -->
+    <section id="proxies" class="max-w-7xl mx-auto px-6 pb-20 category-section hidden">
+        <h2 class="text-5xl font-semibold logo-font tracking-tight mb-10">Proxies</h2>
+        <div id="proxies-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
 
-        <div id="sites-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-            <!-- Sites go here -->
-        </div>
+    <section id="games" class="max-w-7xl mx-auto px-6 pb-20 category-section hidden">
+        <h2 class="text-5xl font-semibold logo-font tracking-tight mb-10">Games</h2>
+        <div id="games-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
 
-        <!-- Manage Area -->
-        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-2xl p-6 text-center">
-            <h3 class="text-xl font-semibold mb-4">Manage Your List</h3>
-            <div class="flex justify-center gap-6">
+    <section id="music" class="max-w-7xl mx-auto px-6 pb-20 category-section hidden">
+        <h2 class="text-5xl font-semibold logo-font tracking-tight mb-10">Music</h2>
+        <div id="music-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
+
+    <section id="tv" class="max-w-7xl mx-auto px-6 pb-20 category-section hidden">
+        <h2 class="text-5xl font-semibold logo-font tracking-tight mb-10">TV</h2>
+        <div id="tv-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
+
+    <section id="ai" class="max-w-7xl mx-auto px-6 pb-20 category-section hidden">
+        <h2 class="text-5xl font-semibold logo-font tracking-tight mb-10">AI</h2>
+        <div id="ai-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
+
+    <!-- MANAGE -->
+    <section class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-2xl p-8 text-center">
+            <h3 class="text-2xl font-semibold mb-6">Manage Your Links</h3>
+            <div class="flex justify-center gap-8">
                 <button onclick="addNewSite()" 
-                        class="bg-black text-white dark:bg-white dark:text-black px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Add New Site
+                        class="bg-black text-white dark:bg-white dark:text-black px-8 py-4 rounded-full font-medium hover:opacity-90 transition-opacity flex items-center gap-3 text-lg">
+                    <i class="fa-solid fa-plus"></i> Add New
                 </button>
                 <button onclick="clearAllSites()" 
-                        class="border-2 border-black dark:border-white px-6 py-3 rounded-full font-medium hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors flex items-center gap-2">
+                        class="border-2 border-black dark:border-white px-8 py-4 rounded-full font-medium hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors flex items-center gap-3 text-lg">
                     <i class="fa-solid fa-trash-can"></i> Clear All
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Minimal About (kept but stripped down) -->
-    <section id="about" class="bg-gray-50 dark:bg-gray-950 py-16 border-t border-gray-200 dark:border-gray-800">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <p class="text-lg text-gray-600 dark:text-gray-400">
-                Add, remove, or clear sites anytime — all stored in your browser.
-            </p>
-        </div>
-    </section>
-
-    <!-- Add Modal (unchanged) -->
+    <!-- ADD MODAL -->
     <div id="add-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
         <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 w-full max-w-md mx-4 border border-gray-300 dark:border-gray-800">
-            <h3 class="text-2xl font-semibold mb-6">Add New Site</h3>
+            <h3 class="text-2xl font-semibold mb-6">Add New Link</h3>
             <div class="space-y-5">
                 <div>
                     <label class="block text-sm font-medium mb-1.5">Name</label>
@@ -141,55 +144,84 @@
                     <input id="site-url" type="text" class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:border-black dark:focus:border-white">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1.5">Short Description (optional)</label>
+                    <label class="block text-sm font-medium mb-1.5">Description (optional)</label>
                     <input id="site-desc" type="text" class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:border-black dark:focus:border-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1.5">Category</label>
+                    <select id="site-category" class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:border-black dark:focus:border-white">
+                        <option value="proxies">Proxies</option>
+                        <option value="games">Games</option>
+                        <option value="music">Music</option>
+                        <option value="tv">TV</option>
+                        <option value="ai">AI</option>
+                    </select>
                 </div>
             </div>
             <div class="flex gap-4 mt-8">
                 <button onclick="hideModal()" class="flex-1 py-3 border border-gray-400 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Cancel</button>
-                <button onclick="saveNewSite()" class="flex-1 py-3 bg-black text-white dark:bg-white dark:text-black rounded-lg font-medium hover:opacity-90 transition-opacity">Add Site</button>
+                <button onclick="saveNewSite()" class="flex-1 py-3 bg-black text-white dark:bg-white dark:text-black rounded-lg font-medium hover:opacity-90 transition-opacity">Add</button>
             </div>
         </div>
     </div>
 
     <script>
+        const categories = ['proxies', 'games', 'music', 'tv', 'ai'];
+
         let sites = JSON.parse(localStorage.getItem('starlinkSites')) || [
-            { name: "CroxyProxy", url: "https://www.croxyproxy.com/", desc: "Fast web proxy" },
-            { name: "ProxySite", url: "https://www.proxysite.com/", desc: "Simple proxy" },
-            { name: "Slope", url: "https://slope-game.github.io/", desc: "Endless runner" },
-            { name: "YouTube Mirror", url: "https://yewtu.be/", desc: "Unblocked videos" }
+            { id: Date.now(), name: "CroxyProxy", url: "https://www.croxyproxy.com/", desc: "Fast web proxy", category: "proxies" },
+            { id: Date.now()+1, name: "Slope", url: "https://slope-game.github.io/", desc: "Endless runner", category: "games" },
         ];
 
-        function renderSites() {
-            const grid = document.getElementById('sites-grid');
-            grid.innerHTML = '';
+        function renderAllGrids() {
+            categories.forEach(cat => {
+                const grid = document.getElementById(cat + '-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
 
-            if (sites.length === 0) {
-                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 dark:text-gray-600 py-12">No sites yet — add some!</p>';
-                return;
-            }
+                const catSites = sites.filter(s => s.category === cat);
 
-            sites.forEach(site => {
-                const card = document.createElement('a');
-                card.href = site.url;
-                card.target = "_blank";
-                card.className = `card relative block bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-2xl p-6 hover:border-black dark:hover:border-white transition-colors group`;
-                card.innerHTML = `
-                    <div class="flex items-start justify-between mb-3">
-                        <h3 class="text-xl font-semibold group-hover:text-black dark:group-hover:text-white">${site.name}</h3>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">${site.desc || ''}</p>
-                `;
-                grid.appendChild(card);
+                if (catSites.length === 0) {
+                    grid.innerHTML = '<p class="col-span-full text-center text-gray-500 dark:text-gray-600 py-12">No links yet in this category</p>';
+                    return;
+                }
+
+                catSites.forEach(site => {
+                    const card = document.createElement('a');
+                    card.href = site.url;
+                    card.target = "_blank";
+                    card.className = `card block bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-2xl p-6 hover:border-black dark:hover:border-white transition-colors group relative`;
+                    card.innerHTML = `
+                        <button class="delete-btn absolute top-3 right-3 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors" 
+                                onclick="event.preventDefault(); deleteSite(${site.id});">
+                            <i class="fa-solid fa-trash-can text-lg"></i>
+                        </button>
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="text-xl font-semibold group-hover:text-black dark:group-hover:text-white">${site.name}</h3>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">${site.desc || ''}</p>
+                    `;
+                    grid.appendChild(card);
+                });
             });
         }
 
-        function filterSites() {
-            const term = document.getElementById('search').value.toLowerCase().trim();
-            document.querySelectorAll('#sites-grid a').forEach(card => {
-                card.style.display = card.textContent.toLowerCase().includes(term) || !term ? 'block' : 'none';
-            });
+        function deleteSite(id) {
+            if (!confirm('Delete this link?')) return;
+            sites = sites.filter(s => s.id !== id);
+            localStorage.setItem('starlinkSites', JSON.stringify(sites));
+            renderAllGrids();
+        }
+
+        function showCategory(cat) {
+            document.querySelectorAll('.category-section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(cat === 'home' ? 'home' : cat).classList.remove('hidden');
+
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const tabText = cat === 'home' ? 'Home' : cat.charAt(0).toUpperCase() + cat.slice(1);
+            const activeTab = Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.trim() === tabText);
+            if (activeTab) activeTab.classList.add('active');
         }
 
         function addNewSite() {
@@ -210,24 +242,31 @@
             const name = document.getElementById('site-name').value.trim();
             const url = document.getElementById('site-url').value.trim();
             const desc = document.getElementById('site-desc').value.trim();
+            const category = document.getElementById('site-category').value;
 
-            if (!name || !url) {
-                alert('Name and URL are required!');
+            if (!name || !url || !category) {
+                alert('Name, URL, and Category required!');
                 return;
             }
 
             let fullUrl = url.startsWith('http') ? url : 'https://' + url;
-            sites.push({ name, url: fullUrl, desc });
+            sites.push({ 
+                id: Date.now(), 
+                name, 
+                url: fullUrl, 
+                desc, 
+                category 
+            });
             localStorage.setItem('starlinkSites', JSON.stringify(sites));
-            renderSites();
+            renderAllGrids();
             hideModal();
         }
 
         function clearAllSites() {
-            if (!confirm('Delete ALL sites? This cannot be undone.')) return;
+            if (!confirm('Delete ALL links in ALL categories?')) return;
             sites = [];
             localStorage.setItem('starlinkSites', JSON.stringify(sites));
-            renderSites();
+            renderAllGrids();
         }
 
         function toggleTheme() {
@@ -235,14 +274,16 @@
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         }
 
-        // Theme + logo color init
+        // Init theme
         if (localStorage.getItem('theme') === 'dark' || 
             (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
 
+        // Start
         window.addEventListener('load', () => {
-            renderSites();
+            renderAllGrids();
+            showCategory('home');
         });
     </script>
 </body>
