@@ -46,7 +46,11 @@
     <nav class="border-b border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-black/90 backdrop-blur-md fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <img id="logo" src="logo-dark.png" alt="Starlink" class="h-9 w-9 object-contain transition-all duration-300">
+                <!-- Inline SVG star logo -->
+                <svg id="logo-svg" class="h-9 w-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
+                          fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 <span class="logo-font text-3xl font-semibold tracking-tight">Starlink</span>
             </div>
 
@@ -70,15 +74,16 @@
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="pt-32 pb-16 text-center">
+    <!-- HERO – now just "Starlink" with star -->
+    <section class="pt-32 pb-20 text-center">
         <div class="max-w-5xl mx-auto px-6">
-            <h1 class="text-6xl md:text-7xl font-semibold logo-font tracking-tighter mb-6">
-                Your Personal Unblocked Hub
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                Add, remove, clear — manage everything directly in your browser.
-            </p>
+            <div class="flex items-center justify-center gap-4 mb-2">
+                <!-- Larger inline star for hero -->
+                <svg class="h-16 w-16 text-black dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                </svg>
+                <h1 class="text-7xl md:text-8xl font-semibold logo-font tracking-tighter">Starlink</h1>
+            </div>
         </div>
     </section>
 
@@ -113,21 +118,16 @@
         </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="bg-gray-50 dark:bg-gray-950 py-20 border-t border-gray-200 dark:border-gray-800">
+    <!-- Minimal About (kept but stripped down) -->
+    <section id="about" class="bg-gray-50 dark:bg-gray-950 py-16 border-t border-gray-200 dark:border-gray-800">
         <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-4xl font-semibold logo-font tracking-tight mb-6">Your Rules, Your Way</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
-                Everything is stored in your browser (localStorage).<br>
-                Clear it anytime. Add whatever links you want. Changes stay until you clear or switch browsers/devices.
-            </p>
-            <p class="text-sm text-gray-500 dark:text-gray-600">
-                Static site • GitHub Pages • Edit freely
+            <p class="text-lg text-gray-600 dark:text-gray-400">
+                Add, remove, or clear sites anytime — all stored in your browser.
             </p>
         </div>
     </section>
 
-    <!-- Add Modal -->
+    <!-- Add Modal (unchanged) -->
     <div id="add-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
         <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 w-full max-w-md mx-4 border border-gray-300 dark:border-gray-800">
             <h3 class="text-2xl font-semibold mb-6">Add New Site</h3>
@@ -165,11 +165,11 @@
             grid.innerHTML = '';
 
             if (sites.length === 0) {
-                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 dark:text-gray-600 py-12">No sites yet — add some above!</p>';
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 dark:text-gray-600 py-12">No sites yet — add some!</p>';
                 return;
             }
 
-            sites.forEach((site, index) => {
+            sites.forEach(site => {
                 const card = document.createElement('a');
                 card.href = site.url;
                 card.target = "_blank";
@@ -216,11 +216,7 @@
                 return;
             }
 
-            let fullUrl = url;
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                fullUrl = 'https://' + url;
-            }
-
+            let fullUrl = url.startsWith('http') ? url : 'https://' + url;
             sites.push({ name, url: fullUrl, desc });
             localStorage.setItem('starlinkSites', JSON.stringify(sites));
             renderSites();
@@ -237,24 +233,16 @@
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-
-            const logo = document.getElementById('logo');
-            const isDark = document.documentElement.classList.contains('dark');
-            logo.src = isDark ? 'logo-dark.png' : 'logo-light.png';
-            logo.src += '?t=' + Date.now(); // cache bust
         }
 
-        // Theme init
+        // Theme + logo color init
         if (localStorage.getItem('theme') === 'dark' || 
             (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
 
-        // Start
         window.addEventListener('load', () => {
             renderSites();
-            const isDark = document.documentElement.classList.contains('dark');
-            document.getElementById('logo').src = isDark ? 'logo-dark.png' : 'logo-light.png';
         });
     </script>
 </body>
