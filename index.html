@@ -66,17 +66,18 @@
             animation: pulse-glow 4s infinite ease-in-out;
         }
         @keyframes pulse-glow {
-            0%, 100% { opacity: 0.9; filter: drop-shadow(0 0 8px currentColor); }
-            50% { opacity: 1; filter: drop-shadow(0 0 20px currentColor); }
+            0%, 100% { opacity: 0.92; filter: drop-shadow(0 0 10px currentColor); }
+            50% { opacity: 1; filter: drop-shadow(0 0 24px currentColor); }
         }
 
         .manage-section {
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, height 0.5s ease;
         }
         .home .manage-section {
             opacity: 0;
             height: 0;
             margin: 0;
+            padding: 0;
             overflow: hidden;
         }
     </style>
@@ -115,13 +116,13 @@
         <div class="max-w-5xl mx-auto px-6">
             <div class="flex flex-col items-center gap-6">
                 <div class="relative">
-                    <svg class="h-32 w-32 text-black dark:text-white pulse-glow" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="h-40 w-40 md:h-48 md:w-48 text-black dark:text-white pulse-glow" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                     </svg>
                 </div>
                 <h1 class="text-8xl md:text-9xl font-semibold logo-font tracking-tighter">Starlink</h1>
                 <p class="text-3xl text-gray-600 dark:text-gray-400 mt-2">By: Gunnar Booth</p>
-                <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-4xl mt-10 leading-relaxed">
+                <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-4xl mt-12 leading-relaxed">
                     ★ Starlink is a curated directory designed to bring the best of the internet to your fingertips. Whether you need to bypass restrictions with our secure proxy sites, dive into immersive browser gaming, stream the latest films, explore the frontier of AI, or discover new music, ★ Starlink is your central hub for entertainment and utility.
                 </p>
             </div>
@@ -154,8 +155,8 @@
         <div id="ai-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </section>
 
-    <!-- MANAGE (only shown on category pages) -->
-    <section class="manage-section max-w-7xl mx-auto px-6 pb-24">
+    <!-- MANAGE (hidden on home) -->
+    <section id="manage" class="manage-section max-w-7xl mx-auto px-6 pb-24">
         <div class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-2xl p-8 text-center">
             <h3 class="text-2xl font-semibold mb-6">Manage Your Links</h3>
             <div class="flex justify-center gap-8">
@@ -210,8 +211,7 @@
         const categories = ['proxies', 'games', 'music', 'tv', 'ai'];
 
         let sites = JSON.parse(localStorage.getItem('starlinkSites')) || [
-            { id: Date.now(), name: "CroxyProxy", url: "https://www.croxyproxy.com/", desc: "Fast web proxy", category: "proxies" },
-            { id: Date.now()+1, name: "Slope", url: "https://slope-game.github.io/", desc: "Endless runner", category: "games" },
+            { id: Date.now(), name: "Example Proxy", url: "https://example.com", desc: "Test proxy", category: "proxies" },
         ];
 
         function renderAllGrids() {
@@ -228,11 +228,11 @@
                 }
 
                 catSites.forEach(site => {
-                    const card = document.createElement('div'); // changed to div since delete prevents <a> navigation
+                    const card = document.createElement('div');
                     card.className = `card bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-2xl p-6 hover:border-black dark:hover:border-white transition-colors group relative cursor-pointer`;
                     card.onclick = () => window.open(site.url, '_blank');
                     card.innerHTML = `
-                        <button class="delete-btn absolute top-3 right-3 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors" 
+                        <button class="delete-btn absolute top-3 right-3 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors z-10" 
                                 onclick="event.stopPropagation(); deleteSite(${site.id});">
                             <i class="fa-solid fa-trash-can text-lg"></i>
                         </button>
@@ -255,10 +255,16 @@
         }
 
         function showCategory(cat) {
-            document.querySelectorAll('.category-section').forEach(sec => {
-                sec.classList.add('hidden');
-            });
+            document.querySelectorAll('.category-section').forEach(sec => sec.classList.add('hidden'));
             document.getElementById(cat).classList.remove('hidden');
+
+            // Show/hide manage section only on category pages
+            const manage = document.getElementById('manage');
+            if (cat === 'home') {
+                manage.classList.add('home');
+            } else {
+                manage.classList.remove('home');
+            }
 
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             const tabText = cat === 'home' ? 'Home' : cat.charAt(0).toUpperCase() + cat.slice(1);
